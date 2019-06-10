@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:blockpass/routes.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(Routes());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
