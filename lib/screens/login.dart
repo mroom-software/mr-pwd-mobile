@@ -1,39 +1,35 @@
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).backgroundColor,
+        elevation: 0.0,
+        title: Text(
+          'LOGIN',
+          style: Theme.of(context).textTheme.title,
+        ),
+      ),
       body: Container(
-        padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-        color: Color.fromRGBO(253, 238, 238, 1),
         child: Column(
           children: <Widget>[
             Expanded(
-              flex: 1,
-              child: Text(
-                'LOGIN',
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 5,
+              flex: 6,
               child: Container(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: <Widget>[
                     Expanded(
-                      flex: 1,
+                      flex: 2,
                       child: Align(
                         alignment: Alignment.bottomLeft,
                         child: Text(
                           'Password',
-                          style: TextStyle(
-                            color: Color.fromRGBO(36, 59, 107, 1),
-                          ),
+                          style: Theme.of(context).textTheme.display1,
                         ),
                       )
                     ),
@@ -79,10 +75,10 @@ class LoginScreen extends StatelessWidget {
                             height: 60,
                             child: RaisedButton(
                               color: Color.fromRGBO(36, 59, 107, 1),
-                              onPressed: () => print('Login pressed'),
+                              onPressed: () => print('Login clicked'),
                               child: Text(
                                 'Login',
-                                style: TextStyle(color: Color(0xFFFFFFFF)),
+                                style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16),
                               ),
                             ),
                           ),
@@ -96,13 +92,14 @@ class LoginScreen extends StatelessWidget {
                           Container(  
                             height: 40,
                             child: FlatButton(
-                              onPressed: () => print('Import clicked'),
+                              onPressed: () => Navigator.pushNamed(context, '/import'),
                               child: Align(
                                 alignment: Alignment.topCenter,
                                 child: Text(
                                   'Import new private key',
                                   style: TextStyle(
                                     decoration: TextDecoration.underline,
+                                    color: Theme.of(context).primaryColor,
                                   ),
                                 ),
                               ),

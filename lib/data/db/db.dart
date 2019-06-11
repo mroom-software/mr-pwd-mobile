@@ -43,11 +43,7 @@ class DB {
   Future<User> selectUser() async {
     final List<Map<String, dynamic>> maps = await _dbConn.query('users');
     final Map<String, dynamic> mUser = maps.last;
-    return User(
-      id: mUser['id'],
-      name: mUser['name'],
-      password: mUser['password'],
-    );
+    return User.fromMap(mUser);
   }
 
   Future<User> selectUserID(int id) async {
@@ -64,6 +60,8 @@ class DB {
   Future<int> updateUser(User user) async => await _dbConn.update('users', user.toMap(), where: 'id = ?', whereArgs: [user.id]);
     
   Future<int> deleteUser(int id) async => await _dbConn.delete('users', where: 'id = ?', whereArgs: [id]);
+
+  Future<int> deleteAllUsers() async => await _dbConn.delete('users');
 
   Future<void> close() async => await _dbConn.close();
 

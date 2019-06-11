@@ -17,8 +17,8 @@ class User {
   }
 
   User.fromMap(Map<String, dynamic> map) {
-    id = map['id'];
-    name = map['name'];
-    password = map['password'];
+    id = map['id'] as int;
+    name = map['name'] as String;
+    password = map['password'] as String;
   }
 }
