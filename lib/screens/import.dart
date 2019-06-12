@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:blockpass/widgets/text_combo_widget.dart';
 
-class ImportScreen extends StatelessWidget {
+class ImportScreen extends StatefulWidget {
+
+  @override
+  _ImportScreenState createState() => _ImportScreenState();
+}
+
+class _ImportScreenState extends State<ImportScreen> {
+  final privController = TextEditingController();
+
+  void btnNextClicked() {
+    print(privController.text);
+  }
+
+  @override
+  void dispose() {
+    privController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +70,7 @@ class ImportScreen extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                   child: TextField(
+                                    controller: privController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '',
@@ -85,7 +103,7 @@ class ImportScreen extends StatelessWidget {
                             height: 60,
                             child: RaisedButton(
                               color: Color.fromRGBO(36, 59, 107, 1),
-                              onPressed: () => print('Login clicked'),
+                              onPressed: () => btnNextClicked(),
                               child: Text(
                                 'Next',
                                 style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16),
@@ -143,5 +161,4 @@ class ImportScreen extends StatelessWidget {
       )
     );
   }
-
 }

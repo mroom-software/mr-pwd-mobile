@@ -17,9 +17,9 @@ class BPApi {
     _dio = new Dio();
   }
 
-  Future<Map<String, dynamic>> getMoreApps() async {
+  Future<Map<String, dynamic>> getMoreApps(String source) async {
     try {
-      Response response = await _dio.get(_baseUrl + '/system/more-apps');
+      Response response = await _dio.get(_baseUrl + '/system/more-apps?source=' + source);
       return json.decode(response.data.toString());
     } catch (e) {
       print(e);

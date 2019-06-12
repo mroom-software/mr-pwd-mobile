@@ -1,3 +1,4 @@
+import 'package:blockpass/config/app.dart';
 import 'package:flutter/material.dart';
 
 class TextComboWidget extends StatefulWidget {
@@ -13,15 +14,15 @@ class TextComboWidget extends StatefulWidget {
 }
 
 class _TextComboWidgetState extends State<TextComboWidget> {
-  List _cities = ["Mainnet", "Kylin Testnet", "Jungle Testnet"];
+  String _selectedValue;
   List<DropdownMenuItem<String>> _dropDownMenuItems;
 
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = new List();
-    for (String city in _cities) {
+    for (int i = 0; i < app.eosNetworks.length; i++) {
       items.add(new DropdownMenuItem(
-          value: city,
-          child: new Text(city)
+          value: app.eosNetworks[i],
+          child: new Text(app.eosNetworks[i])
       ));
     }
     return items;
@@ -30,6 +31,7 @@ class _TextComboWidgetState extends State<TextComboWidget> {
   @override
   void initState() {
     _dropDownMenuItems = getDropDownMenuItems();
+    _selectedValue = _dropDownMenuItems[0].value;
     super.initState();
   }
 
@@ -54,9 +56,9 @@ class _TextComboWidgetState extends State<TextComboWidget> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
               child: DropdownButton(
-                value: 'Mainnet',
+                value: _selectedValue,
                 items: _dropDownMenuItems,
-                onChanged: (selectedItem) => print(selectedItem),
+                onChanged: changedDropDownItem,
                 isExpanded: true,
                 style: Theme.of(context).textTheme.body1,
                 underline: Container(),
@@ -66,5 +68,11 @@ class _TextComboWidgetState extends State<TextComboWidget> {
         ],
       ),
     );
+  }
+
+  void changedDropDownItem(String selectedValue) {
+    setState(() {
+      _selectedValue = selectedValue;
+    });
   }
 }

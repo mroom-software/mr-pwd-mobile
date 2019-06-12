@@ -11,14 +11,13 @@ class DB {
     return _singleton;
   }
 
-  DB._internal() {
-    _open();
-  }
+  DB._internal();
 
-  Future<void> _open() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'database.db');
-    _dbConn = await openDatabase(
+  Future<void> open() async {
+    if (_dbConn == null || !_dbConn.isOpen) {
+      var databasesPath = await getDatabasesPath();
+      String path = join(databasesPath, 'database.db');
+      _dbConn = await openDatabase(
         path, 
         version: 1,
         onCreate: (Database db, int version) async {
@@ -30,6 +29,7 @@ class DB {
           ''');
         },
       );
+    }
   }
 
   Future<void> insertUser(User user) async {
@@ -42,8 +42,11 @@ class DB {
 
   Future<User> selectUser() async {
     final List<Map<String, dynamic>> maps = await _dbConn.query('users');
-    final Map<String, dynamic> mUser = maps.last;
-    return User.fromMap(mUser);
+    if (maps.length > 0) {
+      final Map<String, dynamic> mUser = maps.last;
+      return User.fromMap(mUser);
+    }
+    return null;
   }
 
   Future<User> selectUserID(int id) async {
@@ -66,3 +69,5 @@ class DB {
   Future<void> close() async => await _dbConn.close();
 
 }
+
+final db = DB();
