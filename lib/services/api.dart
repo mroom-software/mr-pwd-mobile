@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:blockpass/config/app.dart';
 import 'package:dio/dio.dart';
 
 class BPApi {
 
   static final BPApi _singleton = new BPApi._internal();
   Dio _dio;
-  final String _baseUrl = 'http://localhost:8000/api';
+  final String _baseUrl = app.baseURL;
 
   factory BPApi() {
     return _singleton;

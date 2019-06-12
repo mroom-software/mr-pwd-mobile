@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                         alignment: Alignment.bottomLeft,
                         child: Text(
                           'Password',
-                          style: Theme.of(context).textTheme.display1,
+                          style: Theme.of(context).textTheme.subtitle,
                         ),
                       )
                     ),

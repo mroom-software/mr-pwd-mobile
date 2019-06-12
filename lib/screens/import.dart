@@ -33,7 +33,7 @@ class ImportScreen extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                           child: Text(
                             'Your private key',
-                            style: Theme.of(context).textTheme.display1,
+                            style: Theme.of(context).textTheme.subtitle,
                           ),
                         ),
                       )
