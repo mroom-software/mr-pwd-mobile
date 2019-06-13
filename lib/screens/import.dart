@@ -25,17 +25,20 @@ class _ImportScreenState extends State<ImportScreen> {
       print('Error!!!');
 
     } else {
-      // save private key
-      final storage = new FlutterSecureStorage();
-      await storage.write(key: 'priKey', value: privController.text);
+      eos.userInfo( (String name) async {
+        // save private key
+        final storage = new FlutterSecureStorage();
+        await storage.write(key: 'priKey', value: privController.text);
 
-      // save user
-      await db.insertUser(User(
-        name: '',
-        password: '',
-        chainURL: app.eosNetworkURL[widgetTxtCombo.lblContent],
-      ));
-      Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
+        // save user
+        await db.insertUser(User(
+          name: name,
+          password: '',
+          chainURL: app.eosNetworkURL[widgetTxtCombo.lblContent],
+        ));
+        Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
+      });
+
     }
   }
 

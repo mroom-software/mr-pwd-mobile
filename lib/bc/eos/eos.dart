@@ -22,5 +22,20 @@ class EOS {
 
     return true;
   }
-  
+
+  void userInfo(Function(String) callback) {
+    try {
+      if (_eosClient.keys.keys.length > 0) {
+        String pubKey = _eosClient.keys.keys.first;
+        _eosClient.getKeyAccounts(pubKey).then((AccountNames accountNames) {
+          if (accountNames.accountNames.length > 0) {
+            callback(accountNames.accountNames.first);
+          } 
+        });
+      }
+    } catch (e) {
+      print(e);
+      callback('');
+    } 
+  }
 }

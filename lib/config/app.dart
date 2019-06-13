@@ -10,7 +10,7 @@ class AppConfig {
   Map<String, String> eosNetworkURL = {
     'Mainnet': 'https://api.eosnewyork.io',
     'Kylin Testnet': 'http://kylin.fn.eosbixin.com',
-    'Jungle Testnet': 'http://jungle2.cryptolions.io:80',
+    'Jungle Testnet': 'http://85.214.253.244:8888',
   };
 
   User user;
