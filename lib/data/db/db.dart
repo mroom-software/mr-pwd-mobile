@@ -24,8 +24,9 @@ class DB {
           await db.execute('''
             create table users ( 
               id integer primary key autoincrement, 
-              name text not null,
-              password integer not null)
+              name text,
+              chainURL text not null,
+              password integer)
           ''');
         },
       );

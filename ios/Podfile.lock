@@ -1,5 +1,7 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_secure_storage (3.2.0):
+    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -9,6 +11,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
@@ -18,11 +21,14 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: ".symlinks/flutter/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  flutter_secure_storage: 0c5779648ff644110e507909b77a57e620cbbf8b
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   sqflite: ff1d9da63c06588cc8d1faf7256d741f16989d5a
 

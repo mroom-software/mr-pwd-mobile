@@ -1,3 +1,8 @@
+import 'package:blockpass/config/app.dart';
+import 'package:blockpass/data/db/db.dart';
+import 'package:blockpass/data/models/user.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:blockpass/bc/eos/eos.dart';
 import 'package:flutter/material.dart';
 import 'package:blockpass/widgets/text_combo_widget.dart';
 
@@ -8,10 +13,30 @@ class ImportScreen extends StatefulWidget {
 }
 
 class _ImportScreenState extends State<ImportScreen> {
-  final privController = TextEditingController();
+  final privController = TextEditingController(text: '');
+  TextComboWidget widgetTxtCombo = TextComboWidget(lblLeading: 'EOS', lblContent: 'Mainnet');
 
-  void btnNextClicked() {
-    print(privController.text);
+  Future<void> btnNextClicked() async {
+    print(widgetTxtCombo.lblContent);
+
+    EOS eos = EOS();
+    bool result = eos.connect(app.eosNetworkURL[widgetTxtCombo.lblContent], privController.text);
+    if (!result) {
+      print('Error!!!');
+
+    } else {
+      // save private key
+      final storage = new FlutterSecureStorage();
+      await storage.write(key: 'priKey', value: privController.text);
+
+      // save user
+      await db.insertUser(User(
+        name: '',
+        password: '',
+        chainURL: app.eosNetworkURL[widgetTxtCombo.lblContent],
+      ));
+      Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
+    }
   }
 
   @override
@@ -68,7 +93,7 @@ class _ImportScreenState extends State<ImportScreen> {
                                 alignment: Alignment.centerLeft,
                                 child:
                                 Container(
-                                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                                   child: TextField(
                                     controller: privController,
                                     decoration: InputDecoration(
@@ -89,7 +114,7 @@ class _ImportScreenState extends State<ImportScreen> {
                           children: <Widget>[
                             Container(
                               height: 60,
-                              child: TextComboWidget(lblLeading: 'EOS', lblContent: 'Mainnet'),
+                              child: widgetTxtCombo,
                             )
                           ],
                         ), 

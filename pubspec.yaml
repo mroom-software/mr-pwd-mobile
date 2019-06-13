@@ -26,6 +26,8 @@ dependencies:
   sqflite: ^1.1.0
   dio: 2.1.0
   eosdart: ^0.4.1
+  flutter_progress_hud: ^1.0.1
+  flutter_secure_storage: ^3.2.1+1
 
 dev_dependencies:
   flutter_test:

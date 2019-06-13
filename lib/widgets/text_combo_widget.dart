@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 
 class TextComboWidget extends StatefulWidget {
 
-  final String lblLeading;
-  final String lblContent;
+  String lblLeading;
+  String lblContent;
 
-  
   TextComboWidget({Key key, this.lblLeading, this.lblContent}) : super(key: key);
 
   @override
@@ -73,6 +72,7 @@ class _TextComboWidgetState extends State<TextComboWidget> {
   void changedDropDownItem(String selectedValue) {
     setState(() {
       _selectedValue = selectedValue;
+      widget.lblContent = selectedValue;
     });
   }
 }
