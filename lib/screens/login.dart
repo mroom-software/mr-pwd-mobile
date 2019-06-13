@@ -1,6 +1,9 @@
 import 'package:blockpass/config/app.dart';
 import 'package:blockpass/data/db/db.dart';
+import 'package:blockpass/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+
 
 class LoginScreen extends StatefulWidget {
   
@@ -9,7 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
+  final txtPwdController = TextEditingController();
   bool showPwd;
 
   bool isNeedToSetPwdForFirstTimeAccount() {
@@ -35,6 +38,29 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       showPwd = !showPwd;
     });
+  }
+
+  void btnDoneTouched() {
+    var str = txtPwdController.text;
+    var bytes = utf8.encode(str);
+    var pwd = base64.encode(bytes);
+
+    if (pwd.trim().length == 0) {
+      Utils.showPopup(context, 'Error', 'Password invalid!');
+      return;
+    }
+
+    if (isNeedToSetPwdForFirstTimeAccount()) {
+      app.user.password = pwd;
+      db.updateUser(app.user);
+
+    } else {
+      if (pwd == app.user.password) {
+
+      } else {
+        
+      }
+    }
   }
 
   @override
@@ -84,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Container(
                                     padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     child: TextField(
+                                      obscureText: showPwd ? false : true,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'Your password',
@@ -111,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 60,
                               child: RaisedButton(
                                 color: Color.fromRGBO(36, 59, 107, 1),
-                                onPressed: () => print('Done clicked'),
+                                onPressed: () => btnDoneTouched(),
                                 child: Text(
                                   'Done',
                                   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16),
@@ -186,6 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Container(
                                     padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     child: TextField(
+                                      obscureText: showPwd ? false : true,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'Your password',
@@ -213,7 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 60,
                               child: RaisedButton(
                                 color: Color.fromRGBO(36, 59, 107, 1),
-                                onPressed: () => print('Login clicked'),
+                                onPressed: () => btnDoneTouched(),
                                 child: Text(
                                   'Login',
                                   style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16),

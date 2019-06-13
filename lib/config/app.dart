@@ -12,6 +12,11 @@ class AppConfig {
     'Kylin Testnet': 'http://kylin.fn.eosbixin.com',
     'Jungle Testnet': 'http://85.214.253.244:8888',
   };
+  Map<String, String> eosContracts = {
+    'Mainnet': '',
+    'Kylin Testnet': '',
+    'Jungle Testnet': 'trongdth1234',
+  };
 
   User user;
 

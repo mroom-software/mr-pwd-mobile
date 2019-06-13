@@ -31,11 +31,12 @@ class _ImportScreenState extends State<ImportScreen> {
         await storage.write(key: 'priKey', value: privController.text);
 
         // save user
-        await db.insertUser(User(
+        app.user = User(
           name: name,
           password: '',
           chainURL: app.eosNetworkURL[widgetTxtCombo.lblContent],
-        ));
+        );
+        await db.insertUser(app.user);
         Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
       });
 

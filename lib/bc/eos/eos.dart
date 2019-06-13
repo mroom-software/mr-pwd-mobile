@@ -38,4 +38,38 @@ class EOS {
       callback('');
     } 
   }
+
+  void myPwds(String contract, String actor) {
+    _eosClient.getTableRows(contract, actor, 'note').then((data) => {
+      data.forEach((item) {
+        print(item);
+      })
+    });
+  }
+
+  void add(String contract, String actor, String pwds) {
+    List<Authorization> auth = [
+      Authorization()
+        ..actor = actor
+        ..permission = 'active'
+    ];
+
+    Map data = {
+      'owner': actor,
+      'data': pwds,
+    };
+
+    List<Action> actions = [
+      Action()
+        ..account = contract
+        ..name = 'add'
+        ..authorization = auth
+        ..data = data
+    ];
+
+    Transaction transaction = Transaction()..actions = actions;
+    _eosClient.pushTransaction(transaction, broadcast: true).then((trx) {
+      print(trx);
+    });
+  }
 }
