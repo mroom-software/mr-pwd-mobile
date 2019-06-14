@@ -1,6 +1,8 @@
+import 'package:blockpass/bc/eos/eos.dart';
 import 'package:blockpass/config/app.dart';
 import 'package:blockpass/data/db/db.dart';
 import 'package:blockpass/utils/utils.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -15,11 +17,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final txtPwdController = TextEditingController();
   bool showPwd;
 
-  bool isNeedToSetPwdForFirstTimeAccount() {
-    if (app.user != null && app.user.password.length == 0) {
+  bool isNeedToInputPwdToLogin() {
+    if (app.user != null) {
       return true;
-    }
-
+    } 
     return false;
   }
 
@@ -40,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void btnDoneTouched() {
+  void btnDoneTouched() async {
     var str = txtPwdController.text;
     var bytes = utf8.encode(str);
     var pwd = base64.encode(bytes);
@@ -50,29 +51,42 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    if (isNeedToSetPwdForFirstTimeAccount()) {
-      app.user.password = pwd;
-      db.updateUser(app.user);
-
-    } else {
-      if (pwd == app.user.password) {
-
+    if (app.user != null) {
+      if (app.user.password.length == 0) {
+        app.user.password = pwd;
+        db.updateUser(app.user);
       } else {
-        
+        if (pwd != app.user.password) {
+          Utils.showPopup(context, 'Error', 'Wrong password!');
+          return;
+        } 
       }
+    } else {
+      Utils.showPopup(context, 'Error', 'user is null!');
+      return;
+    }
+
+    // init eos
+    final storage = new FlutterSecureStorage();
+    var privKey = await storage.read(key: 'priKey');
+    EOS eos = new EOS();
+    bool value = eos.connect(app.user.chainURL, privKey);
+
+    if (value) {
+      Navigator.pushNamedAndRemoveUntil(context, '/list', (Route<dynamic> route) => false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isNeedToSetPwdForFirstTimeAccount()) {
+    if (isNeedToInputPwdToLogin()) {
       return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0.0,
           title: Text(
-            'FINAL STEP',
+            'LOGIN',
             style: Theme.of(context).textTheme.title,
           ),
         ),
@@ -110,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Container(
                                     padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     child: TextField(
+                                      controller: txtPwdController,
                                       obscureText: showPwd ? false : true,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -213,6 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Container(
                                     padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     child: TextField(
+                                      controller: txtPwdController,
                                       obscureText: showPwd ? false : true,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,

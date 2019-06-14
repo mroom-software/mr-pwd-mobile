@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:blockpass/screens/login.dart';
 import 'package:blockpass/screens/import.dart';
+import 'package:blockpass/screens/list.dart';
 
 
 class Routes extends StatelessWidget {
@@ -24,6 +25,7 @@ class Routes extends StatelessWidget {
       routes: {
         '/': (context) => LoginScreen(),
         '/import': (context) => ImportScreen(),
+        '/list': (context) => ListScreen(),
       },
     );
   }

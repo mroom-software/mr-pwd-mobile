@@ -13,7 +13,7 @@ class Utils {
             child: Text(title),
           ),
           content: Container(
-            height: 50,
+            height: 40,
               child: Align(
               alignment: Alignment.center,
               child: Text(msg),
