@@ -30,6 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    txtPwdController.dispose();
+    super.dispose();
+  }
+
   Future<void> reloadUser() async {
     app.user = await db.selectUser();
   }

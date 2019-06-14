@@ -1,3 +1,5 @@
+import 'package:blockpass/data/models/pwd.dart';
+import 'package:blockpass/screens/add.dart';
 import 'package:blockpass/widgets/pwd_row_widget.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:blockpass/config/app.dart';
@@ -79,13 +81,17 @@ class _ListScreenState extends State<ListScreen> {
                     ),
                     content: PwdRowWidget(),
                   ),
-                  onTap: () => Navigator.pushNamed(context, '/add'),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => AddScreen(pwd: Pwd(name: 'Gmail', email: 'wer@mroomsoft.com', password: '123456', url: 'gmail.com', notes: 'Nothing to say'),),
+                  )),
                 );
 
               } else {
                 return GestureDetector(
                   child: PwdRowWidget(),
-                  onTap: () => Navigator.pushNamed(context, '/add'),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => AddScreen(pwd: Pwd(name: 'Gmail', email: 'wer@mroomsoft.com', password: '123456', url: 'gmail.com', notes: 'Nothing to say'),),
+                  )),
                 );
               }
               
@@ -96,7 +102,7 @@ class _ListScreenState extends State<ListScreen> {
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: FlatButton(
-              onPressed: () => print('add pressed'),
+              onPressed: () => Navigator.pushNamed(context, '/add'),
               child: Image.asset('assets/add.png'),
             ),
           ),
