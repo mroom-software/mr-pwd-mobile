@@ -1,10 +1,10 @@
 import 'package:blockpass/config/app.dart';
 import 'package:blockpass/data/db/db.dart';
 import 'package:blockpass/data/models/user.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:blockpass/bc/eos/eos.dart';
+import 'package:blockpass/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:blockpass/widgets/text_combo_widget.dart';
+import 'package:blockpass/widgets/combobox_widget.dart';
 
 class ImportScreen extends StatefulWidget {
 
@@ -14,7 +14,7 @@ class ImportScreen extends StatefulWidget {
 
 class _ImportScreenState extends State<ImportScreen> {
   final privController = TextEditingController(text: '');
-  TextComboWidget widgetTxtCombo = TextComboWidget(lblLeading: 'EOS', lblContent: 'Mainnet');
+  ComboboxWidget widgetTxtCombo = ComboboxWidget(lblLeading: 'EOS', lblContent: 'Mainnet');
 
   Future<void> btnNextClicked() async {
     print(widgetTxtCombo.lblContent);
@@ -27,14 +27,13 @@ class _ImportScreenState extends State<ImportScreen> {
     } else {
       eos.userInfo( (String name) async {
         // save private key
-        final storage = new FlutterSecureStorage();
-        await storage.write(key: 'priKey', value: privController.text);
+        utils.saveSecureData('priKey', privController.text);
 
         // save user
         app.user = User(
           name: name,
           password: '',
-          chainURL: app.eosNetworkURL[widgetTxtCombo.lblContent],
+          chainID: widgetTxtCombo.lblContent,
         );
         await db.insertUser(app.user);
         Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);

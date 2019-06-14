@@ -2,7 +2,6 @@ import 'package:blockpass/bc/eos/eos.dart';
 import 'package:blockpass/config/app.dart';
 import 'package:blockpass/data/db/db.dart';
 import 'package:blockpass/utils/utils.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -67,10 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     // init eos
-    final storage = new FlutterSecureStorage();
-    var privKey = await storage.read(key: 'priKey');
-    EOS eos = new EOS();
-    bool value = eos.connect(app.user.chainURL, privKey);
+    var privKey = await utils.getSecureData('priKey');
+    bool value = eos.connect(app.eosNetworkURL[app.user.chainID], privKey);
 
     if (value) {
       Navigator.pushNamedAndRemoveUntil(context, '/list', (Route<dynamic> route) => false);

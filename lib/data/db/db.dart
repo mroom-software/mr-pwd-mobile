@@ -25,7 +25,8 @@ class DB {
             create table users ( 
               id integer primary key autoincrement, 
               name text,
-              chainURL text not null,
+              chainID text not null,
+              network text default 'eos',
               password integer)
           ''');
         },

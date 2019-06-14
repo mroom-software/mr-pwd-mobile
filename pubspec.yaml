@@ -28,6 +28,7 @@ dependencies:
   eosdart: ^0.4.1
   flutter_progress_hud: ^1.0.1
   flutter_secure_storage: ^3.2.1+1
+  sticky_headers: ^0.1.8
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:blockpass/screens/settings.dart';
 import 'package:blockpass/screens/login.dart';
 import 'package:blockpass/screens/import.dart';
 import 'package:blockpass/screens/list.dart';
+import 'package:blockpass/screens/add.dart';
 
 
 class Routes extends StatelessWidget {
@@ -26,6 +28,8 @@ class Routes extends StatelessWidget {
         '/': (context) => LoginScreen(),
         '/import': (context) => ImportScreen(),
         '/list': (context) => ListScreen(),
+        '/settings': (context) => SettingsScreen(),
+        '/add': (context) => AddScreen(),
       },
     );
   }

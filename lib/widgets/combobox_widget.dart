@@ -1,18 +1,18 @@
 import 'package:blockpass/config/app.dart';
 import 'package:flutter/material.dart';
 
-class TextComboWidget extends StatefulWidget {
+class ComboboxWidget extends StatefulWidget {
 
   String lblLeading;
   String lblContent;
 
-  TextComboWidget({Key key, this.lblLeading, this.lblContent}) : super(key: key);
+  ComboboxWidget({Key key, this.lblLeading, this.lblContent}) : super(key: key);
 
   @override
-  _TextComboWidgetState createState() => _TextComboWidgetState();
+  _ComboboxWidgetState createState() => _ComboboxWidgetState();
 }
 
-class _TextComboWidgetState extends State<TextComboWidget> {
+class _ComboboxWidgetState extends State<ComboboxWidget> {
   String _selectedValue;
   List<DropdownMenuItem<String>> _dropDownMenuItems;
 

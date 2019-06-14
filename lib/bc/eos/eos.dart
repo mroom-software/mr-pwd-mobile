@@ -73,3 +73,5 @@ class EOS {
     });
   }
 }
+
+final eos = new EOS();
