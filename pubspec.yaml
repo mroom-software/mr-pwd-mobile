@@ -88,3 +88,4 @@ flutter:
           
   assets:
     - assets/touch_id.png
+    - assets/add.png

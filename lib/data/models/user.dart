@@ -5,8 +5,10 @@ class User {
   String password;
   String chainID;
   String network;
+  String data;
+  int syncTime;
   
-  User({this.id, this.name, this.password, this.chainID, this.network});
+  User({this.id, this.name, this.password, this.chainID, this.network, this.data, this.syncTime});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -15,6 +17,8 @@ class User {
       'password': password,
       'chainID': chainID,
       'network': network ?? 'eos',
+      'data': data,
+      'syncTime': syncTime,
     };
     return map;
   }
@@ -25,11 +29,13 @@ class User {
     password = map['password'] as String;
     chainID = map['chainID'] as String;
     network = map['network'] as String;
+    data = map['data'] as String;
+    syncTime = map['syncTime'] as int;
   }
 
   @override
   String toString() {
-    return ('${this.id} - ${this.name} - ${this.password} - ${this.chainID} - ${this.network}');
+    return ('${this.id} - ${this.name} - ${this.password} - ${this.chainID} - ${this.network} - ${this.data} - ${this.syncTime}');
   }
 
 }

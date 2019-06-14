@@ -27,6 +27,8 @@ class DB {
               name text,
               chainID text not null,
               network text default 'eos',
+              data text,
+              syncTime integer,
               password integer)
           ''');
         },

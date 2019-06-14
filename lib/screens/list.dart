@@ -1,3 +1,4 @@
+import 'package:blockpass/widgets/pwd_row_widget.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:blockpass/config/app.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +11,19 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-
-  List entries = ['1', '1', '1'];
+  List entries = [];
 
   @override
   void initState() {
-    print(app.user.toString());
+    loadEntries();
     super.initState();
   }
 
+  void loadEntries() {
+    setState(() {
+      entries = ['1', '2'];
+    });
+  }
 
   void btnSearchTouched() {
 
@@ -54,27 +59,50 @@ class _ListScreenState extends State<ListScreen> {
           ),
         ],
       ),
-      body: ListView.separated(
-        itemCount: entries.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            child: Container(
-              color: Color.fromRGBO(255, 255, 255, 0),
-              padding: const EdgeInsets.all(10.0),
-              height: 80,
-              child: Text(
-                'Entry ${entries[index]}',
-                style: TextStyle(
-                  fontSize: 16.0,
-                ),
-              ),
-              alignment: Alignment(-1, 0),
+      body: Stack(
+        children: <Widget>[
+          ListView.separated(
+            itemCount: entries.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (index == 0) {
+                return GestureDetector(
+                  child: new StickyHeader(
+                    header: new Container(
+                      height: 40.0,
+                      color: Colors.white,
+                      padding: new EdgeInsets.symmetric(horizontal: 15.0),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'ALL',
+                        style: Theme.of(context).textTheme.body1,
+                      ),
+                    ),
+                    content: PwdRowWidget(),
+                  ),
+                  onTap: () => Navigator.pushNamed(context, '/add'),
+                );
+
+              } else {
+                return GestureDetector(
+                  child: PwdRowWidget(),
+                  onTap: () => Navigator.pushNamed(context, '/add'),
+                );
+              }
+              
+            },
+            separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(108, 123, 138, 0.2)),
+          ),
+          Container(
+            alignment: Alignment.bottomCenter,
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: FlatButton(
+              onPressed: () => print('add pressed'),
+              child: Image.asset('assets/add.png'),
             ),
-            onTap: () => Navigator.pushNamed(context, '/add'),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(108, 123, 138, 0.2)),
-      ),
+          ),
+        ],
+      ), 
     );
   }
+
 }

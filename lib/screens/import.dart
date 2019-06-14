@@ -13,7 +13,7 @@ class ImportScreen extends StatefulWidget {
 }
 
 class _ImportScreenState extends State<ImportScreen> {
-  final privController = TextEditingController(text: '');
+  final privController = TextEditingController(text: '5KPAbNBGkpQFcMnj4UdUWkFHtuVMSgCdNspPdgDbjV1q7YgQQr8');
   ComboboxWidget widgetTxtCombo = ComboboxWidget(lblLeading: 'EOS', lblContent: 'Mainnet');
 
   Future<void> btnNextClicked() async {
