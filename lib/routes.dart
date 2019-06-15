@@ -4,6 +4,7 @@ import 'package:blockpass/screens/login.dart';
 import 'package:blockpass/screens/import.dart';
 import 'package:blockpass/screens/list.dart';
 import 'package:blockpass/screens/add.dart';
+import 'package:blockpass/screens/change_pwd.dart';
 
 
 class Routes extends StatelessWidget {
@@ -30,6 +31,7 @@ class Routes extends StatelessWidget {
         '/list': (context) => ListScreen(),
         '/settings': (context) => SettingsScreen(),
         '/add': (context) => AddScreen(),
+        '/change_pwd': (context) => ChangePwdScreen(),
       },
     );
   }

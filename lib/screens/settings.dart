@@ -106,12 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ), 
-          onTap: () => Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (BuildContext context) => LoginScreen()
-            )
-          ),
+          onTap: () => Navigator.pushNamed(context, '/change_pwd'),
         );
 
       case 'Sync':
