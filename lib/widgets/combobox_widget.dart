@@ -1,12 +1,12 @@
-import 'package:blockpass/config/app.dart';
 import 'package:flutter/material.dart';
 
 class ComboboxWidget extends StatefulWidget {
 
   String lblLeading;
   String lblContent;
+  List entries;
 
-  ComboboxWidget({Key key, this.lblLeading, this.lblContent}) : super(key: key);
+  ComboboxWidget({Key key, this.lblLeading, this.lblContent, this.entries}) : super(key: key);
 
   @override
   _ComboboxWidgetState createState() => _ComboboxWidgetState();
@@ -18,12 +18,13 @@ class _ComboboxWidgetState extends State<ComboboxWidget> {
 
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = new List();
-    for (int i = 0; i < app.eosNetworks.length; i++) {
+    for (int i = 0; i < widget.entries.length; i++) {
       items.add(new DropdownMenuItem(
-          value: app.eosNetworks[i],
-          child: new Text(app.eosNetworks[i])
+          value: widget.entries[i],
+          child: new Text(widget.entries[i])
       ));
     }
+
     return items;
   }
 

@@ -7,4 +7,8 @@ class Pwd {
 
   Pwd({this.name, this.url, this.email, this.password, this.notes});
 
+  String toString() {
+    return '${this.name} - ${this.url} - ${this.email} - ${this.password} - ${this.notes}';
+  }
+
 }

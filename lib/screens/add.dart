@@ -48,12 +48,27 @@ class _AddScreenState extends State<AddScreen> {
                 Container(
                   height: 65,
                   color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Name', lblContent: (widget.pwd != null) ? widget.pwd.name : '',),
+                  child: InputTxtWidget(lblLeading: 'Name', lblContent: (widget.pwd != null) ? widget.pwd.name : '', lblPlaceHolder: 'Your bookmark', numLines: 1,),
                 ),
                 Container(
                   height: 65,
                   color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Email/Username', lblContent: (widget.pwd != null) ? widget.pwd.email : '',),
+                  child: InputTxtWidget(lblLeading: 'Email/Username', lblContent: (widget.pwd != null) ? widget.pwd.email : '', lblPlaceHolder: 'Enter email', numLines: 1,),
+                ),
+                Container(
+                  height: 65,
+                  color: Colors.white,
+                  child: InputTxtWidget(lblLeading: 'Password', lblContent: (widget.pwd != null) ? widget.pwd.password : '', lblPlaceHolder: '(Required)', numLines: 1),
+                ),
+                Container(
+                  height: 65,
+                  color: Colors.white,
+                  child: InputTxtWidget(lblLeading: 'URL', lblContent: (widget.pwd != null) ? widget.pwd.url : '', lblPlaceHolder: '(Optional)', numLines: 1),
+                ),
+                Container(
+                  height: 160,
+                  color: Colors.white,
+                  child: InputTxtWidget(lblLeading: 'Notes', lblContent: (widget.pwd != null) ? widget.pwd.notes : '', lblPlaceHolder: '(Optional)', numLines: 10),
                 ),
               ],
             ),
@@ -63,7 +78,7 @@ class _AddScreenState extends State<AddScreen> {
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             alignment: Alignment.bottomCenter,
             child: FlatButton(
-              onPressed: null,
+              onPressed: () => Navigator.pop(context, widget.pwd),
               child: Image.asset(
                 'assets/check.png'
               ),

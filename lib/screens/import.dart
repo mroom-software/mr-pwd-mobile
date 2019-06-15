@@ -14,13 +14,13 @@ class ImportScreen extends StatefulWidget {
 
 class _ImportScreenState extends State<ImportScreen> {
   final privController = TextEditingController(text: '5KPAbNBGkpQFcMnj4UdUWkFHtuVMSgCdNspPdgDbjV1q7YgQQr8');
-  ComboboxWidget widgetTxtCombo = ComboboxWidget(lblLeading: 'EOS', lblContent: 'Mainnet');
+  ComboboxWidget widgetTxtCombo = ComboboxWidget(lblLeading: 'EOS', lblContent: 'Mainnet', entries: app.eosChains,);
 
   Future<void> btnNextClicked() async {
     print(widgetTxtCombo.lblContent);
 
     EOS eos = EOS();
-    bool result = eos.connect(app.eosNetworkURL[widgetTxtCombo.lblContent], privController.text);
+    bool result = eos.connect(app.eosChainURL[widgetTxtCombo.lblContent], privController.text);
     if (!result) {
       print('Error!!!');
 

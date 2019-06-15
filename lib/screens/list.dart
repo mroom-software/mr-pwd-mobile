@@ -81,20 +81,34 @@ class _ListScreenState extends State<ListScreen> {
                     ),
                     content: PwdRowWidget(),
                   ),
-                  onTap: () => Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => AddScreen(pwd: Pwd(name: 'Gmail', email: 'wer@mroomsoft.com', password: '123456', url: 'gmail.com', notes: 'Nothing to say'),),
-                  )),
+                  onTap: () => 
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context) => AddScreen(pwd: Pwd(name: 'Gmail', email: 'wer@mroomsoft.com', password: '123456', url: 'gmail.com', notes: 'Nothing to say'),
+                      ),
+                    )).then((value) {
+                      print(value);
+                    }),
                 );
 
               } else {
                 return GestureDetector(
                   child: PwdRowWidget(),
-                  onTap: () => Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => AddScreen(pwd: Pwd(name: 'Gmail', email: 'wer@mroomsoft.com', password: '123456', url: 'gmail.com', notes: 'Nothing to say'),),
-                  )),
+                  onTap: () => _gotoAddScreen(
+                    context, 
+                    AddScreen(
+                      pwd: Pwd (
+                        name: 'Gmail', 
+                        email: 'wer@mroomsoft.com', 
+                        password: '123456', 
+                        url: 'gmail.com', 
+                        notes: 'Nothing to say'
+                      ),
+                    ),
+                  ),
                 );
               }
-              
             },
             separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(108, 123, 138, 0.2)),
           ),
@@ -109,6 +123,17 @@ class _ListScreenState extends State<ListScreen> {
         ],
       ), 
     );
+  }
+
+  _gotoAddScreen(BuildContext context, Widget page) async {  
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as Pwd;
+
+    if (data != null) {
+      print(data.toString());
+    }
   }
 
 }

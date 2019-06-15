@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // init eos
     var privKey = await utils.getSecureData('priKey');
-    bool value = eos.connect(app.eosNetworkURL[app.user.chainID], privKey);
+    bool value = eos.connect(app.eosChainURL[app.user.chainID], privKey);
 
     if (value) {
       Navigator.pushNamedAndRemoveUntil(context, '/list', (Route<dynamic> route) => false);

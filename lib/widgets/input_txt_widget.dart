@@ -4,8 +4,10 @@ class InputTxtWidget extends StatefulWidget {
 
   String lblLeading;
   String lblContent;
+  final String lblPlaceHolder;
+  final int numLines;
 
-  InputTxtWidget({Key key, this.lblLeading, this.lblContent}) : super(key: key);
+  InputTxtWidget({Key key, this.lblLeading, this.lblContent, this.lblPlaceHolder, this.numLines}) : super(key: key);
 
   @override
   _InputTxtWidgetState createState() => _InputTxtWidgetState();
@@ -52,10 +54,12 @@ class _InputTxtWidgetState extends State<InputTxtWidget> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                     child: TextField(
+                      keyboardType: (widget.numLines > 1) ? TextInputType.multiline : TextInputType.text,
+                      maxLines: widget.numLines,
                       controller: txtController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Your bookmark',
+                        hintText: widget.lblPlaceHolder,
                       ),
                       style: Theme.of(context).textTheme.body1,
                     ),
