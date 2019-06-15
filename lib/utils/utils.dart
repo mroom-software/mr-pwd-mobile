@@ -11,7 +11,29 @@ class Utils {
 
   Utils._internal();
 
-  static void showPopup(BuildContext context, String title, String msg) {
+  static void showPopup
+  (
+    BuildContext context, 
+    String title, 
+    String msg,
+    {List<String> buttons: const ['Close'], Function callback(int index)}
+  )
+  {
+    List<Widget> actions = [];
+    buttons.asMap().forEach((index, value) => {
+      actions.add(
+        new FlatButton(
+          child: new Text(value),
+          onPressed: () {
+            if (callback != null) {
+              callback(index);
+            }
+            Navigator.of(context).pop();
+          },
+        )
+      )
+    });
+    
     showDialog(
       context: context,
       builder: (BuildContext context) { 
@@ -22,21 +44,13 @@ class Utils {
             child: Text(title),
           ),
           content: Container(
-            height: 40,
+            height: 55,
               child: Align(
               alignment: Alignment.center,
               child: Text(msg),
             ),
           ),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+          actions: actions,
         );
       },
     );
@@ -48,6 +62,10 @@ class Utils {
 
   Future<String> getSecureData(String key) async {
     return await storage.read(key: key);
+  }
+
+  Future<void> deletSecureData(String key) async {
+    await storage.delete(key: key);
   }
 }
 

@@ -1,4 +1,7 @@
 import 'package:blockpass/config/app.dart';
+import 'package:blockpass/data/db/db.dart';
+import 'package:blockpass/screens/login.dart';
+import 'package:blockpass/utils/utils.dart';
 import 'package:blockpass/widgets/combobox_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -11,62 +14,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
 
-  List<dynamic> entries = [
-    ComboboxWidget(
-      lblLeading: 'Network',
-      lblContent: app.user.network,
-      entries: ['EOS'],
-    ),
-
-    ComboboxWidget(
-      lblLeading: 'Chain',
-      lblContent: app.user.chainID,
-      entries: app.eosChains
-    ),
-
-    GestureDetector(
-      child: Container(
-        color: Color(0xFFFFFF),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Change Password',
-          ),
-        ),
-      ), 
-      onTap: () => print('Change pwd touched'),
-    ),
-
-    GestureDetector(
-      child: Container(
-        color: Color(0xFFFFFF),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Sync Now',
-          ),
-        ),
-      ),
-      onTap: () => print('Sync now touched'),
-    ),
-
-    GestureDetector (
-      child: Container(
-        color: Color(0xFFFFFF),
-        padding: const EdgeInsets.fromLTRB(0, 10, 20, 0),
-        height: 50,
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            'Sign out',
-            style: TextStyle(color: Colors.red),
-          ),
-        ),
-      ),
-      onTap: () => print('Sign out touched'),
-    ),
-
-  ];
+  List<dynamic> entries = ['Network', 'Chain', 'ChangePwd', 'Sync', 'Logout'];
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               content: Container(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: entries[index],
+                child: buildComponents(index),
               ),
             );
 
@@ -107,12 +55,106 @@ class _SettingsScreenState extends State<SettingsScreen> {
             return Container(
               height: 60,
               padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: entries[index],
+              child: buildComponents(index),
             );
           }
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(108, 123, 138, 0.2)),
       ),
     );
+  }
+
+  Widget buildComponents(int index) => showComponents(entries[index]);
+
+  Widget showComponents(String name) {
+    switch (name) {
+      case 'Network':
+        return ComboboxWidget(
+          lblLeading: 'Network',
+          lblContent: app.user.network,
+          entries: ['EOS'],
+        );
+
+      case 'Chain':
+        return ComboboxWidget(
+          lblLeading: 'Chain',
+          lblContent: app.user.chainID,
+          entries: app.eosChains,
+          onChangedChain: (name) => {  
+            Utils.showPopup(
+              context, 
+              'INFO', 
+              'Make sure you have an account with this private key in $name!', 
+              buttons: ['Confirm', 'Close'],
+              callback: (int index) {
+                if (index == 0) { // Confirm
+
+                }
+              },
+            )
+          },
+        );
+
+      case 'ChangePwd':
+        return GestureDetector(
+          child: Container(
+            color: Color(0xFFFFFF),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Change Password',
+              ),
+            ),
+          ), 
+          onTap: () => Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (BuildContext context) => LoginScreen()
+            )
+          ),
+        );
+
+      case 'Sync':
+        return GestureDetector(
+          child: Container(
+            color: Color(0xFFFFFF),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Sync Now',
+              ),
+            ),
+          ),
+          onTap: () => print('Sync now touched'),
+        );
+
+      case 'Logout':
+        return GestureDetector (
+          child: Container(
+            color: Color(0xFFFFFF),
+            padding: const EdgeInsets.fromLTRB(0, 10, 20, 0),
+            height: 50,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Sign out',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ),
+          onTap: () => logOut(),
+        );
+      
+      default:
+    }
+
+    return null;
+  }
+
+  void logOut() {
+    app.user = null;
+    db.deleteAllUsers();
+    utils.deletSecureData('priKey');
+    Navigator.popAndPushNamed(context, '/');
   }
 }

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 class ComboboxWidget extends StatefulWidget {
 
-  String lblLeading;
-  String lblContent;
-  List entries;
+  final String lblLeading;
+  final String lblContent;
+  final List entries;
+  final Function(String) onChangedChain;
 
-  ComboboxWidget({Key key, this.lblLeading, this.lblContent, this.entries}) : super(key: key);
+  ComboboxWidget({Key key, this.lblLeading, this.lblContent, this.entries, this.onChangedChain}) : super(key: key);
 
   @override
   _ComboboxWidgetState createState() => _ComboboxWidgetState();
@@ -73,7 +74,9 @@ class _ComboboxWidgetState extends State<ComboboxWidget> {
   void changedDropDownItem(String selectedValue) {
     setState(() {
       _selectedValue = selectedValue;
-      widget.lblContent = selectedValue;
+      if (widget.onChangedChain != null) {
+        widget.onChangedChain(_selectedValue);
+      }
     });
   }
 }

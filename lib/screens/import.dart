@@ -14,13 +14,11 @@ class ImportScreen extends StatefulWidget {
 
 class _ImportScreenState extends State<ImportScreen> {
   final privController = TextEditingController(text: '5KPAbNBGkpQFcMnj4UdUWkFHtuVMSgCdNspPdgDbjV1q7YgQQr8');
-  ComboboxWidget widgetTxtCombo = ComboboxWidget(lblLeading: 'EOS', lblContent: 'Mainnet', entries: app.eosChains,);
+  String _selectedChain = 'Mainnet';
 
   Future<void> btnNextClicked() async {
-    print(widgetTxtCombo.lblContent);
-
     EOS eos = EOS();
-    bool result = eos.connect(app.eosChainURL[widgetTxtCombo.lblContent], privController.text);
+    bool result = eos.connect(app.eosChainURL[_selectedChain], privController.text);
     if (!result) {
       print('Error!!!');
 
@@ -33,7 +31,7 @@ class _ImportScreenState extends State<ImportScreen> {
         app.user = User(
           name: name,
           password: '',
-          chainID: widgetTxtCombo.lblContent,
+          chainID: _selectedChain,
         );
         await db.insertUser(app.user);
         Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
@@ -117,7 +115,13 @@ class _ImportScreenState extends State<ImportScreen> {
                           children: <Widget>[
                             Container(
                               height: 60,
-                              child: widgetTxtCombo,
+                              child: ComboboxWidget(
+                                lblLeading: 'EOS',
+                                lblContent: _selectedChain,
+                                entries: app.eosChains,
+                                onChangedChain: (name) => {
+                                  _selectedChain = name
+                                },),
                             )
                           ],
                         ), 
