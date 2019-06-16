@@ -47,7 +47,7 @@ class EOS {
     });
   }
 
-  void add(String contract, String actor, String pwds) {
+  void add(String contract, String actor, String pwds, int syncTime) {
     List<Authorization> auth = [
       Authorization()
         ..actor = actor
@@ -57,6 +57,7 @@ class EOS {
     Map data = {
       'owner': actor,
       'data': pwds,
+      'timestamp': syncTime,
     };
 
     List<Action> actions = [

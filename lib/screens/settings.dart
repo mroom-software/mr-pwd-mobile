@@ -14,7 +14,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
 
-  List<dynamic> entries = ['Network', 'Chain', 'ChangePwd', 'Sync', 'Logout'];
+  List<dynamic> entries = ['Network', 'Chain', 'AutoSync', 'ChangePwd', 'Sync', 'Logout'];
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +138,49 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           onTap: () => logOut(),
+        );
+
+      case 'AutoSync':
+        return Container(
+          color: Color(0xFFFFFF),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 8,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 2,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Enable auto sync'),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'If there are any changes after 24 hours',
+                          style: Theme.of(context).textTheme.subtitle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Switch(
+                    value: true,
+                    onChanged: (value) => print(value),
+                  ),
+                ),
+              ),
+            ],
+          ), 
         );
       
       default:

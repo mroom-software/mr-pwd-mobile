@@ -1,3 +1,6 @@
+import 'package:blockpass/utils/utils.dart';
+import 'package:flutter_string_encryption/flutter_string_encryption.dart';
+import 'package:blockpass/bc/eos/eos.dart';
 import 'package:blockpass/data/models/pwd.dart';
 import 'package:blockpass/screens/add.dart';
 import 'package:blockpass/widgets/pwd_row_widget.dart';
@@ -13,7 +16,9 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  final cryptor = new PlatformStringCryptor();
   List entries = [];
+  
 
   @override
   void initState() {
@@ -21,10 +26,16 @@ class _ListScreenState extends State<ListScreen> {
     super.initState();
   }
 
-  void loadEntries() {
-    setState(() {
-      entries = ['1', '2'];
-    });
+  void loadEntries() async {
+    if (app.user.data != null && app.user.data.length > 0) {
+      try {
+        final String decrypted = await cryptor.decrypt(app.user.data, await utils.getSecureData('priKey'));
+        print(decrypted); // - A string to encrypt.
+      } on MacMismatchException {
+        // unable to decrypt (wrong key or forged data)
+      }
+    }
+    eos.myPwds('trongdth1234', app.user.name);
   }
 
   void btnSearchTouched() {
