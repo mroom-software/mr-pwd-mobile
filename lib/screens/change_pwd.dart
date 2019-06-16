@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:blockpass/config/app.dart';
+import 'package:blockpass/data/db/db.dart';
+import 'package:blockpass/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ChangePwdScreen extends StatefulWidget {
@@ -17,6 +22,24 @@ class _ChangePwdScreenState extends State<ChangePwdScreen> {
     super.initState();
   }
 
+  void btnSaveTouched() {
+    String oldPwd = txtOldPwdController.text.trim();
+    String newPwd = txtNewPwdController.text.trim();
+
+    if (base64.encode(utf8.encode(oldPwd)) != app.user.password) {
+      Utils.showPopup(context, 'ERROR', 'Please doule check your old password!');
+      return;
+    }
+
+    if (newPwd.length == 0) {
+      Utils.showPopup(context, 'ERROR', 'New password is invalid!');
+      return;
+    }
+
+    app.user.password = base64.encode(utf8.encode(newPwd));
+    db.updateUser(app.user);
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +113,7 @@ class _ChangePwdScreenState extends State<ChangePwdScreen> {
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     child: TextField(
-                      controller: txtOldPwdController,
+                      controller: txtNewPwdController,
                       obscureText: showOldPwd ? false : true,
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -112,7 +135,7 @@ class _ChangePwdScreenState extends State<ChangePwdScreen> {
                   height: 60,
                   child: RaisedButton(
                     color: Color.fromRGBO(36, 59, 107, 1),
-                    onPressed: () => print('save touched'),
+                    onPressed: () => btnSaveTouched(),
                     child: Text(
                       'Save',
                       style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16),

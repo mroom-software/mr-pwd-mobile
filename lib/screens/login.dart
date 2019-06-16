@@ -47,11 +47,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void btnDoneTouched() async {
-    var str = txtPwdController.text;
+    var str = txtPwdController.text.trim();
     var bytes = utf8.encode(str);
     var pwd = base64.encode(bytes);
 
-    if (pwd.trim().length == 0) {
+    if (pwd.length == 0) {
       Utils.showPopup(context, 'Error', 'Password invalid!');
       return;
     }
