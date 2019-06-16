@@ -150,6 +150,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     app.user = null;
     db.deleteAllUsers();
     utils.deletSecureData('priKey');
-    Navigator.popAndPushNamed(context, '/');
+    Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
   }
 }
