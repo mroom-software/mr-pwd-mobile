@@ -1,6 +1,10 @@
+import 'package:blockpass/data/models/pwd.dart';
 import 'package:flutter/material.dart';
 
 class PwdRowWidget extends StatefulWidget {
+
+  final Pwd pwd;
+  PwdRowWidget({Key key, this.pwd}) : super(key: key);
 
   @override
   _PwdRowWidgetState createState() => _PwdRowWidgetState();
@@ -21,7 +25,7 @@ class _PwdRowWidgetState extends State<PwdRowWidget> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Apple',
+                (widget.pwd != null) ? widget.pwd.name ?? '' : '',
                 style: Theme.of(context).textTheme.body1,
               ),
             ),
@@ -31,7 +35,7 @@ class _PwdRowWidgetState extends State<PwdRowWidget> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'wer@mroomsoft.com',
+                (widget.pwd != null) ? widget.pwd.email ?? '' : '',
                 style: Theme.of(context).textTheme.subtitle,
               ),
             ),

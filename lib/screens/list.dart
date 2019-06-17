@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:blockpass/data/db/db.dart';
+import 'package:blockpass/utils/security.dart';
 import 'package:blockpass/utils/utils.dart';
-import 'package:flutter_string_encryption/flutter_string_encryption.dart';
+
 import 'package:blockpass/bc/eos/eos.dart';
 import 'package:blockpass/data/models/pwd.dart';
 import 'package:blockpass/screens/add.dart';
@@ -16,30 +20,52 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  final cryptor = new PlatformStringCryptor();
-  List entries = [];
+  final security = Security();
+  List<Pwd> entries = [];
   
 
   @override
   void initState() {
-    loadEntries();
     super.initState();
+    loadEntries();
   }
 
   void loadEntries() async {
-    if (app.user.data != null && app.user.data.length > 0) {
-      try {
-        final String decrypted = await cryptor.decrypt(app.user.data, await utils.getSecureData('priKey'));
-        print(decrypted); // - A string to encrypt.
-      } on MacMismatchException {
-        // unable to decrypt (wrong key or forged data)
-      }
+    var cachedEntries = await app.user.getListPwds();
+    if (cachedEntries.length > 0) {
+      setState(() {
+        entries = cachedEntries;
+      });
     }
-    eos.myPwds('trongdth1234', app.user.name);
+    eos.myPwds(app.eosContracts[app.user.chainID], app.user.name, callback: (data) => {
+      parseData(data as List)
+    });
   }
 
-  void btnSearchTouched() {
+  void parseData(List<Map<String, dynamic>> data) {
+    if (data.length > 0) {
+      var row = data.first;
+      if (app.user.syncTime == null || row['timestamp'] >= app.user.syncTime) {
+        app.user.data = row['data'];
+        app.user.syncTime = row['timestamp'] as int;
+        db.updateUser(app.user);
+        setState(() {
+          List<dynamic> lst = json.decode(row['data']); 
+          entries.clear();
+          for (int i = 0; i < lst.length; i++) {
+            Pwd pwd = Pwd.fromJson(jsonDecode(lst[0]));
+            entries.add(pwd);
+          }
+        });
+      }
+    }
+  }
 
+  void btnSearchTouched() async {
+    var cachedData = await app.user.getListPwds();
+    setState(() {
+      entries = cachedData;
+    });
   }
 
   @override
@@ -82,7 +108,7 @@ class _ListScreenState extends State<ListScreen> {
                   child: new StickyHeader(
                     header: new Container(
                       height: 40.0,
-                      color: Colors.white,
+                      color: Colors.grey.shade100,
                       padding: new EdgeInsets.symmetric(horizontal: 15.0),
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -90,13 +116,13 @@ class _ListScreenState extends State<ListScreen> {
                         style: Theme.of(context).textTheme.body1,
                       ),
                     ),
-                    content: PwdRowWidget(),
+                    content: PwdRowWidget(pwd: entries[index],),
                   ),
                   onTap: () => 
                     Navigator.push(
                       context, 
                       MaterialPageRoute(
-                        builder: (context) => AddScreen(pwd: Pwd(name: 'Gmail', email: 'wer@mroomsoft.com', password: '123456', url: 'gmail.com', notes: 'Nothing to say'),
+                        builder: (context) => AddScreen(pwd: entries[index],
                       ),
                     )).then((value) {
                       print(value);
@@ -127,7 +153,7 @@ class _ListScreenState extends State<ListScreen> {
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: FlatButton(
-              onPressed: () => Navigator.pushNamed(context, '/add'),
+              onPressed: () => _gotoAddScreen(context, AddScreen()),
               child: Image.asset('assets/add.png'),
             ),
           ),
@@ -143,7 +169,7 @@ class _ListScreenState extends State<ListScreen> {
     ) as Pwd;
 
     if (data != null) {
-      print(data.toString());
+      Utils.showPopup(context, 'INFO', '${data.name} saved successfully!');
     }
   }
 

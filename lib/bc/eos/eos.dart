@@ -39,12 +39,17 @@ class EOS {
     } 
   }
 
-  void myPwds(String contract, String actor) {
-    _eosClient.getTableRows(contract, actor, 'note').then((data) => {
-      data.forEach((item) {
-        print(item);
-      })
-    });
+  void myPwds(String contract, String actor, {Function callback}) async {
+    List<Map<String, dynamic>> data = await _eosClient.getTableRows(contract, actor, 'note');
+    if (callback != null) {
+      callback(data);
+    }
+    // _eosClient.getTableRows(contract, actor, 'note').then((data) => {
+    //   print('data = ${data}')
+    //   // data.forEach((item) {
+    //   //   print(item);
+    //   // })
+    // });
   }
 
   void add(String contract, String actor, String pwds, int syncTime) {

@@ -9,12 +9,12 @@ class AppConfig {
   List<String> eosChains = ['Mainnet', 'Kylin Testnet', 'Jungle Testnet'];
   Map<String, String> eosChainURL = {
     'Mainnet': 'https://api.eosnewyork.io',
-    'Kylin Testnet': 'http://kylin.fn.eosbixin.com',
+    'Kylin Testnet': 'https://api-kylin.eosasia.one',
     'Jungle Testnet': 'http://85.214.253.244:8888',
   };
   Map<String, String> eosContracts = {
     'Mainnet': '',
-    'Kylin Testnet': '',
+    'Kylin Testnet': 'trongdthdapp',
     'Jungle Testnet': 'trongdth1234',
   };
 

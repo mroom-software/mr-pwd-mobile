@@ -1,11 +1,15 @@
+import 'dart:convert';
+
+import 'package:blockpass/bc/eos/eos.dart';
+import 'package:blockpass/config/app.dart';
+import 'package:blockpass/data/db/db.dart';
 import 'package:blockpass/data/models/pwd.dart';
 import 'package:blockpass/widgets/input_txt_widget.dart';
 import 'package:flutter/material.dart';
 
 class AddScreen extends StatefulWidget {
 
-  Pwd pwd;
-
+  final Pwd pwd;
   AddScreen({Key key, this.pwd}) : super(key: key);
 
   @override
@@ -15,6 +19,7 @@ class AddScreen extends StatefulWidget {
 class _AddScreenState extends State<AddScreen> {
 
   bool isEditable = false;
+  String name, email, password, url, notes;
 
   @override
   void initState() {
@@ -22,6 +27,33 @@ class _AddScreenState extends State<AddScreen> {
       isEditable = true;
     }
     super.initState();
+  }
+
+  void btnSaveTouched() {
+    print('$name -- $email -- $password -- $url -- $notes');
+
+    
+
+    Pwd data = Pwd(
+      index: 0,
+      name: name,
+      email: email,
+      password: password,
+      url: url,
+      notes: notes,
+    );
+
+    List<Pwd> lst = [data];
+    int syncTime = (DateTime.now().millisecondsSinceEpoch/1000).round();
+
+    // update db
+    app.user.data = jsonEncode(lst);
+    app.user.syncTime = syncTime;
+    db.updateUser(app.user);
+
+    // sync to chain
+    eos.add(app.eosContracts[app.user.chainID], app.user.name, jsonEncode(lst), syncTime);
+    Navigator.pop(context, data);
   }
 
   @override
@@ -48,27 +80,37 @@ class _AddScreenState extends State<AddScreen> {
                 Container(
                   height: 65,
                   color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Name', lblContent: (widget.pwd != null) ? widget.pwd.name : '', lblPlaceHolder: 'Your bookmark', numLines: 1,),
+                  child: InputTxtWidget(lblLeading: 'Name', lblContent: (isEditable) ? widget.pwd.name ?? '' : '', lblPlaceHolder: 'Your bookmark', callBack: (value) => {
+                    name = value
+                  },),
                 ),
                 Container(
                   height: 65,
                   color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Email/Username', lblContent: (widget.pwd != null) ? widget.pwd.email : '', lblPlaceHolder: 'Enter email', numLines: 1,),
+                  child: InputTxtWidget(lblLeading: 'Email/Username', lblContent: (isEditable) ? widget.pwd.email ?? '' : '', lblPlaceHolder: 'Enter email', callBack: (value) => {
+                    email = value
+                  },),
                 ),
                 Container(
                   height: 65,
                   color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Password', lblContent: (widget.pwd != null) ? widget.pwd.password : '', lblPlaceHolder: '(Required)', numLines: 1),
+                  child: InputTxtWidget(lblLeading: 'Password', lblContent: (isEditable) ? widget.pwd.password ?? '' : '', lblPlaceHolder: '(Required)', callBack: (value) => {
+                    password = value
+                  },),
                 ),
                 Container(
                   height: 65,
                   color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'URL', lblContent: (widget.pwd != null) ? widget.pwd.url : '', lblPlaceHolder: '(Optional)', numLines: 1),
+                  child: InputTxtWidget(lblLeading: 'URL', lblContent: (isEditable) ? widget.pwd.url ?? '' : '', lblPlaceHolder: '(Optional)', callBack: (value) => {
+                    url = value
+                  },),
                 ),
                 Container(
                   height: 160,
                   color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Notes', lblContent: (widget.pwd != null) ? widget.pwd.notes : '', lblPlaceHolder: '(Optional)', numLines: 10),
+                  child: InputTxtWidget(lblLeading: 'Notes', lblContent: (isEditable) ? widget.pwd.notes ?? '' : '', lblPlaceHolder: '(Optional)', numLines: 10, callBack: (value) => {
+                    notes = value
+                  },),
                 ),
               ],
             ),
@@ -78,7 +120,7 @@ class _AddScreenState extends State<AddScreen> {
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             alignment: Alignment.bottomCenter,
             child: FlatButton(
-              onPressed: () => Navigator.pop(context, widget.pwd),
+              onPressed: () => btnSaveTouched(),
               child: Image.asset(
                 'assets/check.png'
               ),

@@ -24,6 +24,7 @@ class _ImportScreenState extends State<ImportScreen> {
 
     } else {
       eos.userInfo( (String name) async {
+        print('name = $name');
         // save private key
         utils.saveSecureData('priKey', privController.text);
 

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 class InputTxtWidget extends StatefulWidget {
 
-  String lblLeading;
-  String lblContent;
+  final String lblLeading;
+  final String lblContent;
   final String lblPlaceHolder;
   final int numLines;
+  final Function callBack;
 
-  InputTxtWidget({Key key, this.lblLeading, this.lblContent, this.lblPlaceHolder, this.numLines}) : super(key: key);
+  InputTxtWidget({Key key, this.lblLeading, this.lblContent, this.lblPlaceHolder = '', this.numLines = 1, this.callBack}) : super(key: key);
 
   @override
   _InputTxtWidgetState createState() => _InputTxtWidgetState();
@@ -20,7 +21,14 @@ class _InputTxtWidgetState extends State<InputTxtWidget> {
   @override
   void initState() {
     txtController.text = widget.lblContent;
+    txtController.addListener(_responseValue);
     super.initState();
+  }
+
+  void _responseValue() {
+    if (widget.callBack != null) {
+      widget.callBack(txtController.text);
+    }
   }
 
   @override
