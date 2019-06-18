@@ -14,14 +14,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final txtPwdController = TextEditingController();
-  bool showPwd;
+  bool showPwd = false;
+  bool isNeedToInputPwdToLogin = false;
 
-  bool isNeedToInputPwdToLogin() {
-    if (app.user != null) {
-      return true;
-    } 
-    return false;
-  }
 
   @override
   void initState() {
@@ -37,7 +32,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> reloadUser() async {
-    app.user = await db.selectUser();
+    app.user = await db.selectUser();  
+    setState(() {
+      isNeedToInputPwdToLogin = (app.user != null) ? true : false;
+    });
+    
   }
 
   void showPwdChanged() {
@@ -82,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (isNeedToInputPwdToLogin()) {
+    if (isNeedToInputPwdToLogin) {
       return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
@@ -237,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         border: InputBorder.none,
                                         hintText: 'Your password',
                                         suffixIcon: IconButton(
-                                          color: Colors.blueGrey,
+                                          color: Color.fromRGBO(36, 59, 107, 1),
                                           icon: showPwd ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
                                           onPressed: () => showPwdChanged(),
                                         ),

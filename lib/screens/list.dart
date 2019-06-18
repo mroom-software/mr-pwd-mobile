@@ -21,8 +21,27 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   final security = Security();
+  final TextEditingController _filter = new TextEditingController();
+  String _searchText = '';
   List<Pwd> entries = [];
-  
+  List<Pwd> filteredEntries = [];
+  Icon _searchIcon = Icon(Icons.search, color: Color.fromRGBO(36, 59, 107, 1),);
+  Widget _appBarTitle = Text('LIST', style: TextStyle(fontSize: 18.0, fontStyle: FontStyle.normal, color: Color.fromRGBO(36, 59, 107, 1)),);
+
+  _ListScreenState() {
+    _filter.addListener(() {
+      if (_filter.text.isEmpty) {
+        setState(() {
+          _searchText = "";
+          filteredEntries = entries;
+        });
+      } else {
+        setState(() {
+          _searchText = _filter.text;
+        });
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -31,12 +50,11 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   void loadEntries() async {
-    var cachedEntries = await app.user.getListPwds();
-    if (cachedEntries.length > 0) {
-      setState(() {
-        entries = cachedEntries;
-      });
-    }
+    entries = await app.user.getListPwds();
+    setState(() {
+      filteredEntries = entries;
+    });
+    
     eos.myPwds(app.eosContracts[app.user.chainID], app.user.name, callback: (data) => {
       parseData(data as List)
     });
@@ -49,44 +67,52 @@ class _ListScreenState extends State<ListScreen> {
         app.user.data = row['data'];
         app.user.syncTime = row['timestamp'] as int;
         db.updateUser(app.user);
+        
+        List<dynamic> lst = json.decode(row['data']); 
+        entries.clear();
+        for (int i = 0; i < lst.length; i++) {
+          Pwd pwd = Pwd.fromJson(jsonDecode(lst[0]));
+          entries.add(pwd);
+        }
+
         setState(() {
-          List<dynamic> lst = json.decode(row['data']); 
-          entries.clear();
-          for (int i = 0; i < lst.length; i++) {
-            Pwd pwd = Pwd.fromJson(jsonDecode(lst[0]));
-            entries.add(pwd);
-          }
+          filteredEntries = entries;
         });
       }
     }
   }
 
-  void btnSearchTouched() async {
-    var cachedData = await app.user.getListPwds();
+  void btnSearchTouched() {
     setState(() {
-      entries = cachedData;
+      if (_searchIcon.icon == Icons.search) {
+        _searchIcon = Icon(Icons.close, color: Color.fromRGBO(36, 59, 107, 1),);
+        _appBarTitle = TextField(
+          style: Theme.of(context).textTheme.body1,
+          controller: _filter,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            prefixIcon: Icon(Icons.search, color: Color.fromRGBO(36, 59, 107, 1),),
+            hintText: 'Search...'
+          ),
+        );
+      } else {
+        _searchIcon = Icon(Icons.search, color: Color.fromRGBO(36, 59, 107, 1),);
+        _appBarTitle = Text('LIST', style: TextStyle(fontSize: 18.0, fontStyle: FontStyle.normal, color: Color.fromRGBO(36, 59, 107, 1)),);
+        filteredEntries = entries;
+        _filter.clear();
+      }
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+  Widget _buildAppBar(BuildContext context) {
+    return AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: .5,
         bottomOpacity: .2,
-        title: Text(
-          'LIST',
-          style: Theme.of(context).textTheme.title,
-        ),
+        title: _appBarTitle,
         leading: IconButton(
           onPressed: () => btnSearchTouched(),
-          icon: Icon(
-            Icons.search,
-            color: Theme.of(context).primaryColor,
-          ),
+          icon: _searchIcon,
         ),
         actions: <Widget>[
           IconButton(
@@ -97,58 +123,74 @@ class _ListScreenState extends State<ListScreen> {
             ),
           ),
         ],
-      ),
+      );
+  }
+
+  Widget _buildList(BuildContext context) {
+    if (_searchText.isNotEmpty) {
+      List<Pwd> tempList = [];
+      for (int i = 0; i < entries.length; i++) {
+        Pwd tmp = entries[i];
+        if (tmp.name.toLowerCase().contains(_searchText.toLowerCase()) || tmp.email.toLowerCase().contains(_searchText.toLowerCase())) {
+          tempList.add(tmp);
+        }
+      }
+
+      filteredEntries = tempList;
+    }
+
+    return ListView.separated(
+      itemCount: filteredEntries.length,
+      itemBuilder: (BuildContext context, int index) {
+        if (index == 0) {
+          return GestureDetector(
+            child: new StickyHeader(
+              header: new Container(
+                height: 40.0,
+                color: Colors.grey.shade100,
+                padding: new EdgeInsets.symmetric(horizontal: 15.0),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'ALL',
+                  style: Theme.of(context).textTheme.body1,
+                ),
+              ),
+              content: PwdRowWidget(pwd: filteredEntries[index],),
+            ),
+            onTap: () => 
+              _gotoAddScreen(
+              context, 
+              AddScreen(
+                pwd: filteredEntries[index],
+              ),
+            ),
+          );
+
+        } else {
+          return GestureDetector(
+            child: PwdRowWidget(),
+            onTap: () => _gotoAddScreen(
+              context, 
+              AddScreen(
+                pwd: filteredEntries[index],
+              ),
+            ),
+          );
+        }
+      },
+      separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(108, 123, 138, 0.2)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _buildAppBar(context),
       body: Stack(
         children: <Widget>[
-          ListView.separated(
-            itemCount: entries.length,
-            itemBuilder: (BuildContext context, int index) {
-              if (index == 0) {
-                return GestureDetector(
-                  child: new StickyHeader(
-                    header: new Container(
-                      height: 40.0,
-                      color: Colors.grey.shade100,
-                      padding: new EdgeInsets.symmetric(horizontal: 15.0),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'ALL',
-                        style: Theme.of(context).textTheme.body1,
-                      ),
-                    ),
-                    content: PwdRowWidget(pwd: entries[index],),
-                  ),
-                  onTap: () => 
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute(
-                        builder: (context) => AddScreen(pwd: entries[index],
-                      ),
-                    )).then((value) {
-                      print(value);
-                    }),
-                );
-
-              } else {
-                return GestureDetector(
-                  child: PwdRowWidget(),
-                  onTap: () => _gotoAddScreen(
-                    context, 
-                    AddScreen(
-                      pwd: Pwd (
-                        name: 'Gmail', 
-                        email: 'wer@mroomsoft.com', 
-                        password: '123456', 
-                        url: 'gmail.com', 
-                        notes: 'Nothing to say'
-                      ),
-                    ),
-                  ),
-                );
-              }
-            },
-            separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(108, 123, 138, 0.2)),
-          ),
+          _buildList(context),
           Container(
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.symmetric(vertical: 10.0),
