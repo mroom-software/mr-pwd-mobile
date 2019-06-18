@@ -1,6 +1,5 @@
 import 'package:blockpass/config/app.dart';
 import 'package:blockpass/data/db/db.dart';
-import 'package:blockpass/screens/login.dart';
 import 'package:blockpass/utils/utils.dart';
 import 'package:blockpass/widgets/combobox_widget.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +36,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             return StickyHeader(
               header: Container(
                 height: 45.0,
-                color: Colors.white,
+                color: Colors.grey.shade100,
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -80,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           lblLeading: 'Chain',
           lblContent: app.user.chainID,
           entries: app.eosChains,
-          onChangedChain: (name) => {  
+          onChangedChain: (name) => { 
             Utils.showPopup(
               context, 
               'INFO', 
@@ -138,7 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           onTap: () => logOut(),
-        );
+        );      
 
       case 'AutoSync':
         return Container(

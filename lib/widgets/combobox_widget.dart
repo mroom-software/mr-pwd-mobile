@@ -14,25 +14,30 @@ class ComboboxWidget extends StatefulWidget {
 }
 
 class _ComboboxWidgetState extends State<ComboboxWidget> {
-  String _selectedValue;
+  String _selectedValue = '';
   List<DropdownMenuItem<String>> _dropDownMenuItems;
 
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = new List();
     for (int i = 0; i < widget.entries.length; i++) {
+      if (widget.entries[i] == widget.lblContent) {
+        _selectedValue = widget.entries[i];
+      }
       items.add(new DropdownMenuItem(
           value: widget.entries[i],
           child: new Text(widget.entries[i])
       ));
     }
 
+    if (_selectedValue.isEmpty) {
+      _selectedValue = items[0].value;
+    }
     return items;
   }
 
   @override
   void initState() {
     _dropDownMenuItems = getDropDownMenuItems();
-    _selectedValue = _dropDownMenuItems[0].value;
     super.initState();
   }
 

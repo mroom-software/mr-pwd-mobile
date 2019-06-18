@@ -68,13 +68,12 @@ class _ListScreenState extends State<ListScreen> {
         app.user.syncTime = row['timestamp'] as int;
         db.updateUser(app.user);
         
-        List<dynamic> lst = json.decode(row['data']); 
+        List<dynamic> lst = jsonDecode(row['data']); 
         entries.clear();
         for (int i = 0; i < lst.length; i++) {
-          Pwd pwd = Pwd.fromJson(jsonDecode(lst[0]));
+          Pwd pwd = Pwd.fromJson(jsonDecode(lst[i]));
           entries.add(pwd);
         }
-
         setState(() {
           filteredEntries = entries;
         });
@@ -168,7 +167,7 @@ class _ListScreenState extends State<ListScreen> {
 
         } else {
           return GestureDetector(
-            child: PwdRowWidget(),
+            child: PwdRowWidget(pwd: filteredEntries[index],),
             onTap: () => _gotoAddScreen(
               context, 
               AddScreen(
@@ -212,6 +211,11 @@ class _ListScreenState extends State<ListScreen> {
 
     if (data != null) {
       Utils.showPopup(context, 'INFO', '${data.name} saved successfully!');
+
+      entries = await app.user.getListPwds();
+      setState(() {
+        filteredEntries = entries;
+      });
     }
   }
 

@@ -29,30 +29,42 @@ class _AddScreenState extends State<AddScreen> {
     super.initState();
   }
 
-  void btnSaveTouched() {
+  void btnSaveTouched() async {
     print('$name -- $email -- $password -- $url -- $notes');
+    List<Pwd> pwds = await app.user.getListPwds();
+    Pwd data;
+    if (this.isEditable) {
+      pwds.removeAt(widget.pwd.index);
+      data = Pwd(
+        index: widget.pwd.index,
+        name: name ?? widget.pwd.name,
+        email: email ?? widget.pwd.email,
+        password: password ?? widget.pwd.password,
+        url: url ?? widget.pwd.url,
+        notes: notes ?? widget.pwd.notes,
+      );
 
-    
+    } else {
+      data = Pwd(
+        index: pwds.length,
+        name: name,
+        email: email,
+        password: password,
+        url: url,
+        notes: notes,
+      );
+    }
 
-    Pwd data = Pwd(
-      index: 0,
-      name: name,
-      email: email,
-      password: password,
-      url: url,
-      notes: notes,
-    );
-
-    List<Pwd> lst = [data];
+    pwds.insert(data.index, data);
     int syncTime = (DateTime.now().millisecondsSinceEpoch/1000).round();
 
     // update db
-    app.user.data = jsonEncode(lst);
+    app.user.data = jsonEncode(pwds);
     app.user.syncTime = syncTime;
     db.updateUser(app.user);
 
     // sync to chain
-    eos.add(app.eosContracts[app.user.chainID], app.user.name, jsonEncode(lst), syncTime);
+    eos.add(app.eosContracts[app.user.chainID], app.user.name, jsonEncode(pwds), syncTime);
     Navigator.pop(context, data);
   }
 

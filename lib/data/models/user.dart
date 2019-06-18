@@ -61,4 +61,12 @@ class User {
     return entries;
   }
 
+  void syncJob() {
+    
+  }
+
+  void syncNow() {
+
+  }
+
 }
