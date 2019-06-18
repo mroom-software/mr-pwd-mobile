@@ -14,8 +14,9 @@ class User {
   String network;
   String data;
   int syncTime;
+  int enableSync;
   
-  User({this.id, this.name, this.password, this.chainID, this.network, this.data, this.syncTime});
+  User({this.id, this.name, this.password, this.chainID, this.network, this.data, this.syncTime, this.enableSync = 1});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -26,6 +27,7 @@ class User {
       'network': network ?? 'eos',
       'data': data,
       'syncTime': syncTime,
+      'enableSync': enableSync,
     };
     return map;
   }
@@ -38,11 +40,12 @@ class User {
     network = map['network'] as String;
     data = map['data'] as String;
     syncTime = map['syncTime'] as int;
+    enableSync = map['enableSync'] as int;
   }
 
   @override
   String toString() {
-    return ('${this.id} - ${this.name} - ${this.password} - ${this.chainID} - ${this.network} - ${this.data} - ${this.syncTime}');
+    return ('${this.id} - ${this.name} - ${this.password} - ${this.chainID} - ${this.network} - ${this.data} - ${this.syncTime} - ${this.enableSync}');
   }
 
   Future<List<Pwd>> getListPwds() async {
@@ -61,8 +64,12 @@ class User {
     return entries;
   }
 
+  void saveListPwds(List<Pwd> pwds) {
+
+  }
+
   void syncJob() {
-    
+
   }
 
   void syncNow() {

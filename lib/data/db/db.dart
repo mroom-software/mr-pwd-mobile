@@ -29,7 +29,8 @@ class DB {
               network text default 'eos',
               data text,
               syncTime integer,
-              password integer)
+              password integer,
+              enableSync integer)
           ''');
         },
       );

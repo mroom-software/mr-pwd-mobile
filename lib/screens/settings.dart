@@ -173,7 +173,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Switch(
-                    value: true,
+                    value: (app.user.enableSync == 1),
                     onChanged: (value) => print(value),
                   ),
                 ),

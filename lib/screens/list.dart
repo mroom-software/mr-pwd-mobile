@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:blockpass/data/db/db.dart';
 import 'package:blockpass/utils/security.dart';
 import 'package:blockpass/utils/utils.dart';
@@ -103,6 +105,19 @@ class _ListScreenState extends State<ListScreen> {
     });
   }
 
+  void btnLaunchTouched(int index) async {
+    String url = filteredEntries[index].url;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Utils.showPopup(context, 'ERROR', 'Could not launch $url');
+    }
+  }
+
+  void btnDeleteTouched(int index) {
+
+  }
+
   Widget _buildAppBar(BuildContext context) {
     return AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -154,7 +169,30 @@ class _ListScreenState extends State<ListScreen> {
                   style: Theme.of(context).textTheme.body1,
                 ),
               ),
-              content: PwdRowWidget(pwd: filteredEntries[index],),
+              content: Slidable(
+                key: ValueKey(index),
+                actionPane: SlidableDrawerActionPane(),
+                actions: <Widget>[
+                  IconSlideAction(
+                    caption: 'Launch',
+                    color: Colors.indigo,
+                    icon: Icons.launch,
+                    onTap: () => btnLaunchTouched(index),
+                  ),
+                ],
+                secondaryActions: <Widget>[
+                  IconSlideAction(
+                    caption: 'Delete',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () => btnDeleteTouched(index),
+                  ),
+                ],
+                dismissal: SlidableDismissal(
+                  child: SlidableDrawerDismissal(),
+                ),
+                child: PwdRowWidget(pwd: filteredEntries[index],),
+              ), 
             ),
             onTap: () => 
               _gotoAddScreen(
@@ -167,7 +205,30 @@ class _ListScreenState extends State<ListScreen> {
 
         } else {
           return GestureDetector(
-            child: PwdRowWidget(pwd: filteredEntries[index],),
+            child: Slidable(
+              key: ValueKey(index),
+              actionPane: SlidableDrawerActionPane(),
+              actions: <Widget>[
+                IconSlideAction(
+                  caption: 'Launch',
+                  color: Colors.indigo,
+                  icon: Icons.launch,
+                  onTap: () => btnLaunchTouched(index),
+                ),
+              ],
+              secondaryActions: <Widget>[
+                IconSlideAction(
+                  caption: 'Delete',
+                  color: Colors.red,
+                  icon: Icons.delete,
+                  onTap: () => btnDeleteTouched(index),
+                ),
+              ],
+              dismissal: SlidableDismissal(
+                child: SlidableDrawerDismissal(),
+              ),
+              child: PwdRowWidget(pwd: filteredEntries[index],),
+            ),
             onTap: () => _gotoAddScreen(
               context, 
               AddScreen(
