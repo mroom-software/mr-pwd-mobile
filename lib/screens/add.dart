@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:blockpass/bc/eos/eos.dart';
 import 'package:blockpass/config/app.dart';
 import 'package:blockpass/data/db/db.dart';
 import 'package:blockpass/data/models/pwd.dart';
 import 'package:blockpass/services/user.dart';
+import 'package:blockpass/utils/utils.dart';
 import 'package:blockpass/widgets/input_txt_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -52,6 +51,21 @@ class _AddScreenState extends State<AddScreen> {
       );
 
     } else {
+      if (name == null || name.isEmpty) {
+        Utils.showPopup(context, 'ERROR', 'name is empty');
+        return;
+      }
+
+      if (email == null || email.isEmpty) {
+        Utils.showPopup(context, 'ERROR', 'email is empty');
+        return;
+      }
+
+      if (password == null || password.isEmpty) {
+        Utils.showPopup(context, 'ERROR', 'password is empty');
+        return;
+      }
+
       insertedIndex = pwds.length;
       data = Pwd(
         name: name,
@@ -89,64 +103,67 @@ class _AddScreenState extends State<AddScreen> {
         ),
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            color: Color(0xFFFFFF),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: 65,
-                  color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Name', lblContent: (pwd != null) ? pwd.name ?? '' : '', lblPlaceHolder: 'Your bookmark', callBack: (value) => {
-                    name = value
-                  },),
-                ),
-                Container(
-                  height: 65,
-                  color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Email/Username', lblContent: (pwd != null) ? pwd.email ?? '' : '', lblPlaceHolder: 'Enter email', callBack: (value) => {
-                    email = value
-                  },),
-                ),
-                Container(
-                  height: 65,
-                  color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Password', lblContent: (pwd != null) ? pwd.password ?? '' : '', lblPlaceHolder: '(Required)', callBack: (value) => {
-                    password = value
-                  },),
-                ),
-                Container(
-                  height: 65,
-                  color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'URL', lblContent: (pwd != null) ? pwd.url ?? '' : '', lblPlaceHolder: '(Optional)', callBack: (value) => {
-                    url = value
-                  },),
-                ),
-                Container(
-                  height: 160,
-                  color: Colors.white,
-                  child: InputTxtWidget(lblLeading: 'Notes', lblContent: (pwd != null) ? pwd.notes ?? '' : '', lblPlaceHolder: '(Optional)', numLines: 10, callBack: (value) => {
-                    notes = value
-                  },),
-                ),
-              ],
-            ),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              color: Color(0xFFFFFF),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 65,
+                    color: Colors.white,
+                    child: InputTxtWidget(lblLeading: 'Name', lblContent: (pwd != null) ? pwd.name ?? '' : '', lblPlaceHolder: 'Your bookmark', callBack: (value) => {
+                      name = value
+                    },),
+                  ),
+                  Container(
+                    height: 65,
+                    color: Colors.white,
+                    child: InputTxtWidget(lblLeading: 'Email/Username', lblContent: (pwd != null) ? pwd.email ?? '' : '', lblPlaceHolder: 'Enter email', callBack: (value) => {
+                      email = value
+                    },),
+                  ),
+                  Container(
+                    height: 65,
+                    color: Colors.white,
+                    child: InputTxtWidget(lblLeading: 'Password', lblContent: (pwd != null) ? pwd.password ?? '' : '', lblPlaceHolder: '(Required)', callBack: (value) => {
+                      password = value
+                    },),
+                  ),
+                  Container(
+                    height: 65,
+                    color: Colors.white,
+                    child: InputTxtWidget(lblLeading: 'URL', lblContent: (pwd != null) ? pwd.url ?? '' : '', lblPlaceHolder: '(Optional)', callBack: (value) => {
+                      url = value
+                    },),
+                  ),
+                  Container(
+                    height: 160,
+                    color: Colors.white,
+                    child: InputTxtWidget(lblLeading: 'Notes', lblContent: (pwd != null) ? pwd.notes ?? '' : '', lblPlaceHolder: '(Optional)', numLines: 10, callBack: (value) => {
+                      notes = value
+                    },),
+                  ),
+                ],
+              ),
 
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            alignment: Alignment.bottomCenter,
-            child: FlatButton(
-              onPressed: () => btnSaveTouched(),
-              child: Image.asset(
-                'assets/check.png'
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 110),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              alignment: Alignment.bottomCenter,
+              child: FlatButton(
+                onPressed: () => btnSaveTouched(),
+                child: Image.asset(
+                  'assets/check.png'
+                ),
               ),
             ),
-
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
