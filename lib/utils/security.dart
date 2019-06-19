@@ -27,6 +27,6 @@ class Security {
 
     final key = Key.fromUtf8(priKey) ;
     final encrypter = Encrypter(AES(key));
-    return encrypter.decrypt64(encryptedData);
+    return encrypter.decrypt64(encryptedData, iv: iv);
   }
 }

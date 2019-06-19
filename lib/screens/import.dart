@@ -20,7 +20,7 @@ class _ImportScreenState extends State<ImportScreen> {
     EOS eos = EOS();
     bool result = eos.connect(app.eosChainURL[_selectedChain], privController.text);
     if (!result) {
-      print('Error!!!');
+      Utils.showPopup(context, 'ERROR', 'Please double check your private key!');
 
     } else {
       eos.userInfo( (String name) async {

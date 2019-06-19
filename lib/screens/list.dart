@@ -62,7 +62,7 @@ class _ListScreenState extends State<ListScreen> {
     });
   }
 
-  void parseData(List<Map<String, dynamic>> data) {
+  void parseData(List<Map<String, dynamic>> data) async {
     if (data.length > 0) {
       var row = data.first;
       if (app.user.syncTime == null || row['timestamp'] >= app.user.syncTime) {
@@ -70,12 +70,7 @@ class _ListScreenState extends State<ListScreen> {
         app.user.syncTime = row['timestamp'] as int;
         db.updateUser(app.user);
         
-        List<dynamic> lst = jsonDecode(row['data']); 
-        entries.clear();
-        for (int i = 0; i < lst.length; i++) {
-          Pwd pwd = Pwd.fromJson(jsonDecode(lst[i]));
-          entries.add(pwd);
-        }
+        entries = await app.user.getListPwds();
         setState(() {
           filteredEntries = entries;
         });
@@ -122,12 +117,12 @@ class _ListScreenState extends State<ListScreen> {
         int syncTime = (DateTime.now().millisecondsSinceEpoch/1000).round();
 
         // update db
-        app.user.data = jsonEncode(entries);
+        app.user.saveData(entries);
         app.user.syncTime = syncTime;
         db.updateUser(app.user);
 
         // sync to chain
-        eos.add(app.eosContracts[app.user.chainID], app.user.name, jsonEncode(entries), syncTime);
+        eos.add(app.eosContracts[app.user.chainID], app.user.name, app.user.data, syncTime);
 
         setState(() {
           filteredEntries = entries;

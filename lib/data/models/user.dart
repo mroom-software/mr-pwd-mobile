@@ -51,17 +51,26 @@ class User {
   Future<List<Pwd>> getListPwds() async {
     List<Pwd> entries = [];  
     var security = Security();
-    security.priKey = await utils.getSecureData('privKey');
-    if (app.user.data != null && app.user.data.length > 0) {
-      // final String decrypted = security.decryptString(app.user.data);
-      List<dynamic> lst = json.decode(app.user.data); 
+    String k = await utils.getSecureData('priKey');
+    security.priKey = k.substring(0, 32);
+
+    if (data != null && data.isNotEmpty) {
+      final String decryptedStr = security.decryptString(data);
+      List<dynamic> lst = json.decode(decryptedStr); 
       for (int i = 0; i < lst.length; i++) {
         Pwd pwd = Pwd.fromJson(jsonDecode(lst[0]));
         entries.add(pwd);
       }
-    
     }
+    
     return entries;
+  }
+
+  void saveData(List<Pwd> pwds) async {
+    var security = Security();
+    String k = await utils.getSecureData('priKey');
+    security.priKey = k.substring(0, 32);
+    data = security.encryptString(jsonEncode(pwds));
   }
 
   void syncJob() {

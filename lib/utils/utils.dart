@@ -73,6 +73,13 @@ class Utils {
   Future<void> deletSecureData(String key) async {
     await storage.delete(key: key);
   }
+
+  void test(String key, Function callback) async {
+    String k = await storage.read(key: key);
+    if (callback != null) {
+      callback(k);
+    }
+  }
 }
 
 final utils = new Utils();

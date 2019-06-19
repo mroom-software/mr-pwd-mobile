@@ -59,12 +59,13 @@ class _AddScreenState extends State<AddScreen> {
     int syncTime = (DateTime.now().millisecondsSinceEpoch/1000).round();
 
     // update db
-    app.user.data = jsonEncode(pwds);
+
+    app.user.saveData(pwds);
     app.user.syncTime = syncTime;
     db.updateUser(app.user);
 
     // sync to chain
-    eos.add(app.eosContracts[app.user.chainID], app.user.name, jsonEncode(pwds), syncTime);
+    eos.add(app.eosContracts[app.user.chainID], app.user.name, app.user.data, syncTime);
     Navigator.pop(context, data);
   }
 

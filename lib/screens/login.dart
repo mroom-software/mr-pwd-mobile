@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Set password to finish',
+                          'Type your password',
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                       ),
