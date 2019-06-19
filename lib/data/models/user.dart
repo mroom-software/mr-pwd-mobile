@@ -1,11 +1,4 @@
 
-import 'dart:convert';
-
-import 'package:blockpass/config/app.dart';
-import 'package:blockpass/data/models/pwd.dart';
-import 'package:blockpass/utils/security.dart';
-import 'package:blockpass/utils/utils.dart';
-
 class User {
   int id;
   String name;
@@ -46,39 +39,6 @@ class User {
   @override
   String toString() {
     return ('${this.id} - ${this.name} - ${this.password} - ${this.chainID} - ${this.network} - ${this.data} - ${this.syncTime} - ${this.enableSync}');
-  }
-
-  Future<List<Pwd>> getListPwds() async {
-    List<Pwd> entries = [];  
-    var security = Security();
-    String k = await utils.getSecureData('priKey');
-    security.priKey = k.substring(0, 32);
-
-    if (data != null && data.isNotEmpty) {
-      final String decryptedStr = security.decryptString(data);
-      List<dynamic> lst = json.decode(decryptedStr); 
-      for (int i = 0; i < lst.length; i++) {
-        Pwd pwd = Pwd.fromJson(jsonDecode(lst[0]));
-        entries.add(pwd);
-      }
-    }
-    
-    return entries;
-  }
-
-  void saveData(List<Pwd> pwds) async {
-    var security = Security();
-    String k = await utils.getSecureData('priKey');
-    security.priKey = k.substring(0, 32);
-    data = security.encryptString(jsonEncode(pwds));
-  }
-
-  void syncJob() {
-
-  }
-
-  void syncNow() {
-
   }
 
 }

@@ -1,40 +1,22 @@
 import 'package:flutter/material.dart';
 
-class InputTxtWidget extends StatefulWidget {
-
+class InputTxtWidget extends StatelessWidget {
+  final TextEditingController txtController = TextEditingController();
   final String lblLeading;
   final String lblContent;
   final String lblPlaceHolder;
   final int numLines;
   final Function callBack;
 
-  InputTxtWidget({Key key, this.lblLeading, this.lblContent, this.lblPlaceHolder = '', this.numLines = 1, this.callBack}) : super(key: key);
-
-  @override
-  _InputTxtWidgetState createState() => _InputTxtWidgetState();
-}
-
-class _InputTxtWidgetState extends State<InputTxtWidget> {
-
-  TextEditingController txtController = TextEditingController();
-  
-  @override
-  void initState() {
-    txtController.text = widget.lblContent;
+  InputTxtWidget({Key key, this.lblLeading, this.lblContent, this.lblPlaceHolder = '', this.numLines = 1, this.callBack, }) : super(key: key) {
+    txtController.text = lblContent;
     txtController.addListener(_responseValue);
-    super.initState();
   }
 
   void _responseValue() {
-    if (widget.callBack != null) {
-      widget.callBack(txtController.text);
+    if (this.callBack != null) {
+      this.callBack(txtController.text);
     }
-  }
-
-  @override
-  void dispose() {
-    txtController.dispose();
-    super.dispose();
   }
 
   @override
@@ -52,7 +34,7 @@ class _InputTxtWidgetState extends State<InputTxtWidget> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                     child: Text(
-                      this.widget.lblLeading,
+                      this.lblLeading,
                       style: Theme.of(context).textTheme.subtitle,
                     ),
                   ),
@@ -62,12 +44,12 @@ class _InputTxtWidgetState extends State<InputTxtWidget> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                     child: TextField(
-                      keyboardType: (widget.numLines > 1) ? TextInputType.multiline : TextInputType.text,
-                      maxLines: widget.numLines,
+                      keyboardType: (this.numLines > 1) ? TextInputType.multiline : TextInputType.text,
+                      maxLines: this.numLines,
                       controller: txtController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: widget.lblPlaceHolder,
+                        hintText: this.lblPlaceHolder,
                       ),
                       style: Theme.of(context).textTheme.body1,
                     ),

@@ -16,7 +16,7 @@ class Utils {
     BuildContext context, 
     String title, 
     String msg,
-    {List<String> buttons: const ['Close'], Function callback(int index)}
+    {List<String> buttons: const ['Close'], Future<Function> callback(int index)}
   )
   {
     List<Widget> actions = [];

@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:blockpass/services/user.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:blockpass/data/db/db.dart';
@@ -52,7 +51,7 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   void loadEntries() async {
-    entries = await app.user.getListPwds();
+    entries = await userSrv.getListPwds();
     setState(() {
       filteredEntries = entries;
     });
@@ -70,7 +69,7 @@ class _ListScreenState extends State<ListScreen> {
         app.user.syncTime = row['timestamp'] as int;
         db.updateUser(app.user);
         
-        entries = await app.user.getListPwds();
+        entries = await userSrv.getListPwds();
         setState(() {
           filteredEntries = entries;
         });
@@ -111,13 +110,13 @@ class _ListScreenState extends State<ListScreen> {
 
   void btnDeleteTouched(int index) {
     Pwd pwd = entries[index];
-    Utils.showPopup(context, 'WARN', 'Are you sure to wanna delete ${pwd.name}?', buttons: ['OK', 'Cancel'], callback: (idx) {
+    Utils.showPopup(context, 'WARN', 'Are you sure to wanna delete ${pwd.name}?', buttons: ['OK', 'Cancel'], callback: (idx) async {
       if (idx == 0) {
         entries.removeAt(index);
         int syncTime = (DateTime.now().millisecondsSinceEpoch/1000).round();
 
         // update db
-        app.user.saveData(entries);
+        await userSrv.saveData(entries);
         app.user.syncTime = syncTime;
         db.updateUser(app.user);
 
@@ -212,7 +211,7 @@ class _ListScreenState extends State<ListScreen> {
               _gotoAddScreen(
               context, 
               AddScreen(
-                pwd: filteredEntries[index],
+                selectedIdx: index,
               ),
             ),
           );
@@ -246,7 +245,7 @@ class _ListScreenState extends State<ListScreen> {
             onTap: () => _gotoAddScreen(
               context, 
               AddScreen(
-                pwd: filteredEntries[index],
+                selectedIdx: index,
               ),
             ),
           );
@@ -287,7 +286,7 @@ class _ListScreenState extends State<ListScreen> {
     if (data != null) {
       Utils.showPopup(context, 'INFO', '${data.name} saved successfully!');
 
-      entries = await app.user.getListPwds();
+      entries = await userSrv.getListPwds();
       setState(() {
         filteredEntries = entries;
       });
