@@ -29,7 +29,6 @@ class EOS {
         String pubKey = _eosClient.keys.keys.first;
         AccountNames accountNames = await _eosClient.getKeyAccounts(pubKey);
         if (accountNames.accountNames.length > 0) {
-          print('WTF 1');
           callback(accountNames.accountNames.first);
         } else {
           callback('');

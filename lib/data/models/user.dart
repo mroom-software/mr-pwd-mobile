@@ -64,10 +64,6 @@ class User {
     return entries;
   }
 
-  void saveListPwds(List<Pwd> pwds) {
-
-  }
-
   void syncJob() {
 
   }

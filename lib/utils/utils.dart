@@ -41,13 +41,19 @@ class Utils {
         return AlertDialog(
           title: Align(
             alignment: Alignment.center,
-            child: Text(title),
+            child: Text(
+              title,
+              style: Theme.of(context).textTheme.title,
+            ),
           ),
           content: Container(
             height: 55,
               child: Align(
               alignment: Alignment.center,
-              child: Text(msg),
+              child: Text(
+                msg,
+                style: Theme.of(context).textTheme.body1,
+              ),
             ),
           ),
           actions: actions,

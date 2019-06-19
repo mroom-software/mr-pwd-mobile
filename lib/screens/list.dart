@@ -115,7 +115,26 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   void btnDeleteTouched(int index) {
+    Pwd pwd = entries[index];
+    Utils.showPopup(context, 'WARN', 'Are you sure to wanna delete ${pwd.name}?', buttons: ['OK', 'Cancel'], callback: (idx) {
+      if (idx == 0) {
+        entries.removeAt(index);
+        int syncTime = (DateTime.now().millisecondsSinceEpoch/1000).round();
 
+        // update db
+        app.user.data = jsonEncode(entries);
+        app.user.syncTime = syncTime;
+        db.updateUser(app.user);
+
+        // sync to chain
+        eos.add(app.eosContracts[app.user.chainID], app.user.name, jsonEncode(entries), syncTime);
+
+        setState(() {
+          filteredEntries = entries;
+        });
+      }
+    });
+    
   }
 
   Widget _buildAppBar(BuildContext context) {
