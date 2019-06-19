@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:blockpass/config/app.dart';
 import 'package:blockpass/data/db/db.dart';
 import 'package:blockpass/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChangePwdScreen extends StatefulWidget {
@@ -54,18 +55,15 @@ class _ChangePwdScreenState extends State<ChangePwdScreen> {
         ),
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20.0),
-        color: Color(0xFFFFFF),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 200),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 110),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Align(
-                  alignment: Alignment.bottomLeft,
+                  alignment: Alignment.centerLeft,
                   child: Text(
                     'Old Password',
                     style: Theme.of(context).textTheme.subtitle,
@@ -129,7 +127,7 @@ class _ChangePwdScreenState extends State<ChangePwdScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                padding: const EdgeInsets.symmetric(vertical: 30.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 60,

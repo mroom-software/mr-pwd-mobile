@@ -25,17 +25,23 @@ class _ImportScreenState extends State<ImportScreen> {
     } else {
       eos.userInfo( (String name) async {
         print('name = $name');
-        // save private key
-        utils.saveSecureData('priKey', privController.text);
+        if (name.isEmpty) {
+          Utils.showPopup(context, 'ERROR', 'Please double check your private key!');
 
-        // save user
-        app.user = User(
-          name: name,
-          password: '',
-          chainID: _selectedChain,
-        );
-        await db.insertUser(app.user);
-        Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
+        } else {
+          // save private key
+          utils.saveSecureData('priKey', privController.text);
+
+          // save user
+          app.user = User(
+            name: name,
+            password: '',
+            chainID: _selectedChain,
+          );
+          await db.insertUser(app.user);
+          Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
+        }
+        
       });
 
     }
