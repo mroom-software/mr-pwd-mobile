@@ -1,3 +1,4 @@
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:blockpass/services/user.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -21,6 +22,7 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  bool _loading = false;
   final security = Security();
   final TextEditingController _filter = new TextEditingController();
   String _searchText = '';
@@ -53,6 +55,7 @@ class _ListScreenState extends State<ListScreen> {
   void loadEntries() async {
     entries = await userSrv.getListPwds();
     setState(() {
+      _loading = true;
       filteredEntries = entries;
     });
     
@@ -70,11 +73,13 @@ class _ListScreenState extends State<ListScreen> {
         db.updateUser(app.user);
         
         entries = await userSrv.getListPwds();
-        setState(() {
-          filteredEntries = entries;
-        });
       }
     }
+
+    setState(() {
+      filteredEntries = entries;
+      _loading = false;
+    });
   }
 
   void btnSearchTouched() {
@@ -166,6 +171,26 @@ class _ListScreenState extends State<ListScreen> {
       filteredEntries = tempList;
     }
 
+    if (filteredEntries.length == 0) {
+      return Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 100),
+          child: Column(
+            children: <Widget>[
+              Image.asset('assets/no_pwds.png'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  'No passwords',
+                  style: Theme.of(context).textTheme.title,
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
     return ListView.separated(
       itemCount: filteredEntries.length,
       itemBuilder: (BuildContext context, int index) {
@@ -252,7 +277,7 @@ class _ListScreenState extends State<ListScreen> {
         }
       },
       separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(108, 123, 138, 0.2)),
-    );
+    ); 
   }
 
   @override
@@ -261,19 +286,23 @@ class _ListScreenState extends State<ListScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
-      body: Stack(
-        children: <Widget>[
-          _buildList(context),
-          Container(
-            alignment: Alignment.bottomCenter,
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: FlatButton(
-              onPressed: () => _gotoAddScreen(context, AddScreen()),
-              child: Image.asset('assets/add.png'),
+      body: ModalProgressHUD(
+        opacity: 0,
+        child: Stack(
+          children: <Widget>[
+            _buildList(context),
+            Container(
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: FlatButton(
+                onPressed: () => _gotoAddScreen(context, AddScreen()),
+                child: Image.asset('assets/add.png'),
+              ),
             ),
-          ),
-        ],
-      ), 
+          ],
+        ),
+        inAsyncCall: _loading,
+      ),
     );
   }
 

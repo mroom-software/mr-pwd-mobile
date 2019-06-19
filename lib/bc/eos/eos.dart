@@ -45,12 +45,6 @@ class EOS {
     if (callback != null) {
       callback(data);
     }
-    // _eosClient.getTableRows(contract, actor, 'note').then((data) => {
-    //   print('data = ${data}')
-    //   // data.forEach((item) {
-    //   //   print(item);
-    //   // })
-    // });
   }
 
   void add(String contract, String actor, String pwds, int syncTime) {
