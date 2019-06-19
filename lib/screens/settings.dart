@@ -1,5 +1,7 @@
+import 'package:blockpass/bc/eos/eos.dart';
 import 'package:blockpass/config/app.dart';
 import 'package:blockpass/data/db/db.dart';
+import 'package:blockpass/services/user.dart';
 import 'package:blockpass/utils/utils.dart';
 import 'package:blockpass/widgets/combobox_widget.dart';
 import 'package:flutter/material.dart';
@@ -85,9 +87,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
               'INFO', 
               'Make sure you have an account with this private key in $name!', 
               buttons: ['Confirm', 'Close'],
-              callback: (int index) {
+              callback: (int index) async {
                 if (index == 0) { // Confirm
+                  String k = await utils.getSecureData('priKey');
+                  userSrv.selectChain(name, k, (result) {
+                    if (!result) {
+                      Utils.showPopup(context, 'ERROR', 'Please double check your private key!');
 
+                      // connect original one
+                      bool result = eos.connect(app.user.chainID, k);
+                      print('connect ${app.user.chainID} : $result');
+
+                    } else {
+                      Utils.showPopup(context, 'INFO', 'Change to $name successfully!');
+                    }
+
+                  });                  
                 }
               },
             )
