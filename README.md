@@ -6,8 +6,17 @@ Password management in your hand. No server, all things are saved to EOS blockch
 
 ### Screenshots
 
-<img src="screenshots/s1.png" height="70em" /> <img src="screenshots/s2.png" height="70em" /> <img src="screenshots/s3.png" height="70em" /> <img src="screenshots/s4.png" height="70em" />
+<img src="screenshots/s1.png" height="400em" /> <img src="screenshots/s2.png" height="400em" /> <img src="screenshots/s3.png" height="400em" /> <img src="screenshots/s4.png" height="400em" />
 
+
+### Created & Maintained By
+
+[Trong Dinh](https://github.com/trongdth) ([@trongdth](https://www.twitter.com/trongdth))
+
+> If you found this project helpful or you learned something from the source code and want to thank me, consider buying me a cup of :coffee:
+>
+> * [Ethereum](0x9a1592C20A15f99AbB6b69E199f38D50Fa8372Ac)
+> * [EOS](zcryptoman1z)
 
 ## Getting Started
 
