@@ -70,7 +70,8 @@ class _ListScreenState extends State<ListScreen> {
       if (app.user.syncTime == null || row['timestamp'] >= app.user.syncTime) {
         app.user.data = row['data'];
         app.user.syncTime = row['timestamp'] as int;
-        db.updateUser(app.user);
+        app.user.timestamp = row['timestamp'] as int;
+        await db.updateUser(app.user);
         
         entries = await userSrv.getListPwds();
       }
@@ -122,11 +123,9 @@ class _ListScreenState extends State<ListScreen> {
 
         // update db
         await userSrv.saveData(entries);
-        app.user.syncTime = syncTime;
-        db.updateUser(app.user);
 
-        // sync to chain
-        eos.add(app.eosContracts[app.user.chainID], app.user.name, app.user.data, syncTime);
+        // sync
+        userSrv.syncJob(syncTime);
 
         setState(() {
           filteredEntries = entries;

@@ -8,8 +8,9 @@ class User {
   String data;
   int syncTime;
   int enableSync;
+  int timestamp;
   
-  User({this.id, this.name, this.password, this.chainID, this.network, this.data, this.syncTime, this.enableSync = 1});
+  User({this.id, this.name, this.password, this.chainID, this.network, this.data, this.syncTime, this.enableSync = 1, this.timestamp});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -21,6 +22,7 @@ class User {
       'data': data,
       'syncTime': syncTime,
       'enableSync': enableSync,
+      'timestamp': timestamp,
     };
     return map;
   }
@@ -34,11 +36,12 @@ class User {
     data = map['data'] as String;
     syncTime = map['syncTime'] as int;
     enableSync = map['enableSync'] as int;
+    timestamp = map['timestamp'] as int;
   }
 
   @override
   String toString() {
-    return ('${this.id} - ${this.name} - ${this.password} - ${this.chainID} - ${this.network} - ${this.data} - ${this.syncTime} - ${this.enableSync}');
+    return ('id: ${this.id} - name: ${this.name} - pwd: ${this.password} - chainID: ${this.chainID} - network: ${this.network} - data: ${this.data} - syncTime: ${this.syncTime} - enableSync: ${this.enableSync} - timestamp: ${this.timestamp}');
   }
 
 }

@@ -23,7 +23,7 @@ class _ChangePwdScreenState extends State<ChangePwdScreen> {
     super.initState();
   }
 
-  void btnSaveTouched() {
+  void btnSaveTouched() async {
     String oldPwd = txtOldPwdController.text.trim();
     String newPwd = txtNewPwdController.text.trim();
 
@@ -38,7 +38,7 @@ class _ChangePwdScreenState extends State<ChangePwdScreen> {
     }
 
     app.user.password = base64.encode(utf8.encode(newPwd));
-    db.updateUser(app.user);
+    await db.updateUser(app.user);
     Navigator.pop(context);
   }
 

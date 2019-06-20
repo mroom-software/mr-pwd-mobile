@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (app.user != null) {
       if (app.user.password.length == 0) {
         app.user.password = pwd;
-        db.updateUser(app.user);
+        await db.updateUser(app.user);
       } else {
         if (pwd != app.user.password) {
           Utils.showPopup(context, 'Error', 'Wrong password!');

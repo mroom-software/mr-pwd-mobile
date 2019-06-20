@@ -40,8 +40,21 @@ class UserSrv {
     }
   }
 
-  void syncJob() {
+  void syncJob(int syncTime) async {
+      app.user.syncTime = syncTime;
 
+      print('------- $syncTime - ${app.user.timestamp}');
+      if (syncTime - app.user.timestamp >= 10 && app.user.enableSync == 1) { // 24hrs
+        print('------- saving data to chain');
+        app.user.timestamp = syncTime;
+
+        // sync to chain
+        eos.add(app.eosContracts[app.user.chainID], app.user.name, app.user.data, syncTime);
+      }
+
+      await db.updateUser(app.user);
+      print('sync job: ${app.user.toString()}');
+      
   }
 
   void syncNow() {

@@ -7,9 +7,16 @@ import 'package:blockpass/widgets/combobox_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
 
-  final List<dynamic> entries = ['Network', 'Chain', 'AutoSync', 'ChangePwd', 'Sync', 'Logout'];
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  List<dynamic> entries = ['Network', 'Chain', 'AutoSync', 'ChangePwd', 'Sync', 'Logout'];
+
+  int autoSync;
 
   Widget buildComponents(BuildContext context, int index) => showComponents(context, entries[index]);
 
@@ -135,7 +142,7 @@ class SettingsScreen extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Switch(
                     value: (app.user.enableSync == 1),
-                    onChanged: (value) => print(value),
+                    onChanged: (value) => (value) ? autoSync = 1: autoSync = 0,
                   ),
                 ),
               ),
@@ -147,52 +154,66 @@ class SettingsScreen extends StatelessWidget {
     }
 
     return null;
-  }
+  }  
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
-        elevation: .5,
-        bottomOpacity: .2,
-        title: Text(
-          'SETTINGS',
-          style: Theme.of(context).textTheme.title,
+    return WillPopScope(
+      onWillPop: () {
+        if (app.user.enableSync != autoSync) {
+          app.user.enableSync = autoSync;
+          db.updateUser(app.user);
+        }
+
+        //trigger leaving and use own data
+        Navigator.pop(context, false);
+
+        //we need to return a future
+        return Future.value(false);
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).backgroundColor,
+          elevation: .5,
+          bottomOpacity: .2,
+          title: Text(
+            'SETTINGS',
+            style: Theme.of(context).textTheme.title,
+          ),
+          iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         ),
-        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-      ),
-      body: ListView.separated(
-        itemCount: entries.length,
-        itemBuilder: (BuildContext context, int index) {
-          if (index == 0) {
-            return StickyHeader(
-              header: Container(
-                height: 45.0,
-                color: Colors.grey.shade100,
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'CONFIGS',
-                  style: Theme.of(context).textTheme.body1,
+        body: ListView.separated(
+          itemCount: entries.length,
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return StickyHeader(
+                header: Container(
+                  height: 45.0,
+                  color: Colors.grey.shade100,
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'CONFIGS',
+                    style: Theme.of(context).textTheme.body1,
+                  ),
                 ),
-              ),
-              content: Container(
+                content: Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  child: buildComponents(context, index),
+                ),
+              );
+
+            } else {
+              return Container(
+                height: 60,
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: buildComponents(context, index),
-              ),
-            );
-
-          } else {
-            return Container(
-              height: 60,
-              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: buildComponents(context, index),
-            );
-          }
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(108, 123, 138, 0.2)),
+              );
+            }
+          },
+          separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(108, 123, 138, 0.2)),
+        ),
       ),
     );
   }
@@ -203,5 +224,4 @@ class SettingsScreen extends StatelessWidget {
     utils.deletSecureData('priKey');
     Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false);
   }
-  
 }
