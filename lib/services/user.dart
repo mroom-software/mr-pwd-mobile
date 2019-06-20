@@ -44,7 +44,7 @@ class UserSrv {
       app.user.syncTime = syncTime;
 
       print('------- $syncTime - ${app.user.timestamp}');
-      if ((syncTime - app.user.timestamp >= 10 && app.user.enableSync == 1) || forceUpdate) { // 24hrs
+      if (app.user.timestamp == null || (syncTime - app.user.timestamp >= 10 && app.user.enableSync == 1) || forceUpdate) { // 24hrs
         print('------- saving data to chain');
         app.user.timestamp = syncTime;
 

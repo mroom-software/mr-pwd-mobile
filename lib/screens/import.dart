@@ -11,10 +11,15 @@ class ImportScreen extends StatefulWidget {
 }
 
 class _ImportScreenState extends State<ImportScreen> {
-  final privController = TextEditingController(text: '5KPAbNBGkpQFcMnj4UdUWkFHtuVMSgCdNspPdgDbjV1q7YgQQr8');
+  final privController = TextEditingController(text: '');
   String _selectedChain = 'Mainnet';
 
   void btnNextClicked() async {
+
+    if (privController.text.isEmpty) {
+      Utils.showPopup(context, 'ERROR', 'Your private key is empty!');
+      return;  
+    }
 
     userSrv.selectChain(_selectedChain, privController.text, (result) {
       if (!result) {
