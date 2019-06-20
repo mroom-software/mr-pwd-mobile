@@ -40,11 +40,11 @@ class UserSrv {
     }
   }
 
-  void syncJob(int syncTime) async {
+  void syncJob(int syncTime, {bool forceUpdate = false}) async {
       app.user.syncTime = syncTime;
 
       print('------- $syncTime - ${app.user.timestamp}');
-      if (syncTime - app.user.timestamp >= 10 && app.user.enableSync == 1) { // 24hrs
+      if ((syncTime - app.user.timestamp >= 10 && app.user.enableSync == 1) || forceUpdate) { // 24hrs
         print('------- saving data to chain');
         app.user.timestamp = syncTime;
 
@@ -58,7 +58,8 @@ class UserSrv {
   }
 
   void syncNow() {
-
+    int syncTime = (DateTime.now().millisecondsSinceEpoch/1000).round();
+    syncJob(syncTime, forceUpdate: true);
   } 
 
   void selectChain(String chainName, String priKey, Function callback) {

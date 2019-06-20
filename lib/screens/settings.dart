@@ -87,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
-          onTap: () => print('Sync now touched'),
+          onTap: () => userSrv.syncNow(),
         );
 
       case 'Logout':
