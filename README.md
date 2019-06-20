@@ -20,5 +20,7 @@ Password management in your hand. No server, all things are saved to EOS blockch
 
 ## Getting Started
 
-For help getting started with Flutter, view [online documentation](https://flutter.dev/docs), which offers tutorials, 
+- In order to create EOS account, follow this post: https://bit.ly/2L4iFd1
+
+- For help getting started with Flutter, view [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
