@@ -6,7 +6,7 @@ Password management in your hand. No server, all things are saved to EOS blockch
 
 ### Screenshots
 
-<img src="screenshots/s1.png" height="400em" /> <img src="screenshots/s2.png" height="400em" /> <img src="screenshots/s3.png" height="400em" /> <img src="screenshots/s4.png" height="400em" />
+<img src="screenshots/s1.png" height="405em" /> <img src="screenshots/s2.png" height="405em" /> <img src="screenshots/s3.png" height="405em" /> <img src="screenshots/s4.png" height="405em" />
 
 
 ### Created & Maintained By
@@ -15,8 +15,8 @@ Password management in your hand. No server, all things are saved to EOS blockch
 
 > If you found this project helpful or you learned something from the source code and want to thank me, consider buying me a cup of :coffee:
 >
-> * [0x9a1592C20A15f99AbB6b69E199f38D50Fa8372Ac]
-> * [zcryptoman1z]
+> * [Ethereum address: 0x9a1592C20A15f99AbB6b69E199f38D50Fa8372Ac]
+> * [EOS account: zcryptoman1z]
 
 ## Getting Started
 
