@@ -156,17 +156,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              alignment: Alignment.bottomCenter,
-              child: FlatButton(
-                onPressed: () => print('1'),
-                child: Image.asset(
-                  'assets/touch_id.png'
-                ),
-              ),
+            // Container(
+            //   padding: const EdgeInsets.symmetric(vertical: 20.0),
+            //   alignment: Alignment.bottomCenter,
+            //   child: FlatButton(
+            //     onPressed: () => print('1'),
+            //     child: Image.asset(
+            //       'assets/touch_id.png'
+            //     ),
+            //   ),
 
-            ),
+            // ),
           ],
         ),
       );
@@ -265,17 +265,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              alignment: Alignment.bottomCenter,
-              child: FlatButton(
-                onPressed: () => print('1'),
-                child: Image.asset(
-                  'assets/touch_id.png'
-                ),
-              ),
-
-            ),
+            // Container(
+            //   padding: const EdgeInsets.symmetric(vertical: 20.0),
+            //   alignment: Alignment.bottomCenter,
+            //   child: FlatButton(
+            //     onPressed: () => print('1'),
+            //     child: Image.asset(
+            //       'assets/touch_id.png'
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       );

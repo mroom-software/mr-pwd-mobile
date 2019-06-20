@@ -103,55 +103,56 @@ class _AddScreenState extends State<AddScreen> {
         ),
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       ),
-      body: SingleChildScrollView(
-        child: Stack(
+      body: Stack(
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              color: Color(0xFFFFFF),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 65,
-                    color: Colors.white,
-                    child: InputTxtWidget(lblLeading: 'Name', lblContent: (pwd != null) ? pwd.name ?? '' : '', lblPlaceHolder: 'Your bookmark', callBack: (value) => {
-                      name = value
-                    },),
-                  ),
-                  Container(
-                    height: 65,
-                    color: Colors.white,
-                    child: InputTxtWidget(lblLeading: 'Email/Username', lblContent: (pwd != null) ? pwd.email ?? '' : '', lblPlaceHolder: 'Enter email', callBack: (value) => {
-                      email = value
-                    },),
-                  ),
-                  Container(
-                    height: 65,
-                    color: Colors.white,
-                    child: InputTxtWidget(lblLeading: 'Password', lblContent: (pwd != null) ? pwd.password ?? '' : '', lblPlaceHolder: '(Required)', callBack: (value) => {
-                      password = value
-                    },),
-                  ),
-                  Container(
-                    height: 65,
-                    color: Colors.white,
-                    child: InputTxtWidget(lblLeading: 'URL', lblContent: (pwd != null) ? pwd.url ?? '' : '', lblPlaceHolder: '(Optional)', callBack: (value) => {
-                      url = value
-                    },),
-                  ),
-                  Container(
-                    height: 160,
-                    color: Colors.white,
-                    child: InputTxtWidget(lblLeading: 'Notes', lblContent: (pwd != null) ? pwd.notes ?? '' : '', lblPlaceHolder: '(Optional)', numLines: 10, callBack: (value) => {
-                      notes = value
-                    },),
-                  ),
-                ],
-              ),
+            SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                color: Color(0xFFFFFF),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: 65,
+                      color: Colors.white,
+                      child: InputTxtWidget(lblLeading: 'Name', lblContent: (pwd != null) ? pwd.name ?? '' : '', lblPlaceHolder: 'Your bookmark', callBack: (value) => {
+                        name = value
+                      },),
+                    ),
+                    Container(
+                      height: 65,
+                      color: Colors.white,
+                      child: InputTxtWidget(lblLeading: 'Email/Username', lblContent: (pwd != null) ? pwd.email ?? '' : '', lblPlaceHolder: 'Enter email', callBack: (value) => {
+                        email = value
+                      },),
+                    ),
+                    Container(
+                      height: 65,
+                      color: Colors.white,
+                      child: InputTxtWidget(lblLeading: 'Password', lblContent: (pwd != null) ? pwd.password ?? '' : '', lblPlaceHolder: '(Required)', callBack: (value) => {
+                        password = value
+                      },),
+                    ),
+                    Container(
+                      height: 65,
+                      color: Colors.white,
+                      child: InputTxtWidget(lblLeading: 'URL', lblContent: (pwd != null) ? pwd.url ?? '' : '', lblPlaceHolder: '(Optional)', callBack: (value) => {
+                        url = value
+                      },),
+                    ),
+                    Container(
+                      height: 160,
+                      color: Colors.white,
+                      child: InputTxtWidget(lblLeading: 'Notes', lblContent: (pwd != null) ? pwd.notes ?? '' : '', lblPlaceHolder: '(Optional)', numLines: 10, callBack: (value) => {
+                        notes = value
+                      },),
+                    ),
+                  ],
+                ),
 
+              ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 110),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               alignment: Alignment.bottomCenter,
@@ -164,7 +165,6 @@ class _AddScreenState extends State<AddScreen> {
             ),
           ],
         ),
-      ),
     );
   }
 }

@@ -133,7 +133,7 @@ class _ImportScreenState extends State<ImportScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: Column(
                         children: <Widget>[
                           Container(  
@@ -155,22 +155,22 @@ class _ImportScreenState extends State<ImportScreen> {
                         ],
                       )
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        onPressed: () => print('Skip touched'),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Text(
-                            'Skip',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: FlatButton(
+                    //     onPressed: () => print('Skip touched'),
+                    //     child: Align(
+                    //       alignment: Alignment.bottomCenter,
+                    //       child: Text(
+                    //         'Skip',
+                    //         style: TextStyle(
+                    //           decoration: TextDecoration.underline,
+                    //           color: Theme.of(context).primaryColor,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
