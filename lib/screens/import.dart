@@ -1,9 +1,12 @@
 import 'package:blockpass/config/app.dart';
+import 'package:blockpass/screens/mnemonic.dart';
+import 'package:blockpass/services/api.dart';
 import 'package:blockpass/services/user.dart';
 import 'package:blockpass/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:blockpass/widgets/combobox_widget.dart';
 import 'package:flutter/widgets.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class ImportScreen extends StatefulWidget {
 
@@ -14,6 +17,8 @@ class ImportScreen extends StatefulWidget {
 class _ImportScreenState extends State<ImportScreen> {
   final privController = TextEditingController(text: '');
   String _selectedChain = 'Mainnet';
+  bool _loading = false;
+  BPApi api = new BPApi();
 
   void btnNextClicked() async {
 
@@ -34,7 +39,30 @@ class _ImportScreenState extends State<ImportScreen> {
   }
 
   void createEOSAccount() async {
-    Utils.showPopup(context, 'INFO', 'Comming soon!');
+    setState(() {
+      _loading = true;
+    });
+    String privateKey = '';
+    for (int i = 0; i < 1; i++) {
+      dynamic response = await api.createEOSAccount();
+      if (response is Map) {
+        Map<String, dynamic> keys = response['keys']['active_key'] as Map<String, dynamic>;
+        privateKey = keys['private'];
+        break;
+      }
+    }
+
+    if (privateKey.isEmpty) {
+      Utils.showPopup(context, 'ERROR', 'Cannot create EOS account. Please try again later!');
+      
+    } else {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MnemonicScreen(privateKey: privateKey,)),
+        (Route<dynamic> route) => false
+      );
+    }
+    
   }
 
   @override
@@ -57,8 +85,9 @@ class _ImportScreenState extends State<ImportScreen> {
         leading: Container(),
       ),
       body: Container(
-        child:
-          Center(
+        child: ModalProgressHUD(
+          opacity: 0,
+          child: Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -175,6 +204,8 @@ class _ImportScreenState extends State<ImportScreen> {
               ),
             ),
           ),
+          inAsyncCall: _loading,
+        ),
       ),
     );
   }
