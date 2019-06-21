@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 120),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
                 child: Column(
                   children: <Widget>[
                     Padding(
