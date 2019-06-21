@@ -13,7 +13,7 @@ class AppConfig {
     'Jungle Testnet': 'http://85.214.253.244:8888',
   };
   Map<String, String> eosContracts = {
-    'Mainnet': '',
+    'Mainnet': 'zcryptoman1z',
     'Kylin Testnet': 'trongdthdapp',
     'Jungle Testnet': 'trongdth1234',
   };
