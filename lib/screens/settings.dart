@@ -16,7 +16,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   List<dynamic> entries = ['Network', 'Chain', 'AutoSync', 'ChangePwd', 'Sync', 'Logout'];
 
-  int autoSync;
+  int autoSync = app.user.enableSync;
 
   Widget buildComponents(BuildContext context, int index) => showComponents(context, entries[index]);
 
