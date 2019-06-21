@@ -8,7 +8,7 @@ class AppConfig {
   String baseURL = 'http://localhost:8000/api';
   List<String> eosChains = ['Mainnet', 'Kylin Testnet', 'Jungle Testnet'];
   Map<String, String> eosChainURL = {
-    'Mainnet': 'https://api.eosnewyork.io',
+    'Mainnet': 'https://eos.greymass.com:443',
     'Kylin Testnet': 'https://api-kylin.eosasia.one',
     'Jungle Testnet': 'http://85.214.253.244:8888',
   };
