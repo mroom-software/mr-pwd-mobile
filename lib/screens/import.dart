@@ -1,4 +1,5 @@
 import 'package:blockpass/config/app.dart';
+import 'package:blockpass/screens/login.dart';
 import 'package:blockpass/screens/mnemonic.dart';
 import 'package:blockpass/services/api.dart';
 import 'package:blockpass/services/user.dart';
@@ -164,7 +165,11 @@ class _ImportScreenState extends State<ImportScreen> {
                       Container(  
                         height: 40,
                         child: FlatButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginScreen()),
+                            (Route<dynamic> route) => false
+                          ),
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(

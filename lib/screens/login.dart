@@ -31,8 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> reloadUser() async {
-    app.user = await db.selectUser();  
+  Future<void> reloadUser() async { 
     setState(() {
       isNeedToInputPwdToLogin = (app.user != null) ? true : false;
     });

@@ -1,3 +1,4 @@
+import 'package:blockpass/config/app.dart';
 import 'package:flutter/material.dart';
 import 'package:blockpass/screens/settings.dart';
 import 'package:blockpass/screens/login.dart';
@@ -26,7 +27,7 @@ class Routes extends StatelessWidget {
         ),
       ),
       routes: {
-        '/': (context) => LoginScreen(),
+        '/': (context) => (app.user != null) ? LoginScreen() : ImportScreen(),
         '/import': (context) => ImportScreen(),
         '/list': (context) => ListScreen(),
         '/settings': (context) => SettingsScreen(),
