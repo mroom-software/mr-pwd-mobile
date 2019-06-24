@@ -44,7 +44,7 @@ class _ImportScreenState extends State<ImportScreen> {
       _loading = true;
     });
     String privateKey = '';
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 3; i++) {
       dynamic response = await api.createEOSAccount();
       if (response is Map) {
         Map<String, dynamic> keys = response['keys']['active_key'] as Map<String, dynamic>;
