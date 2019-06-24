@@ -58,7 +58,9 @@ class BPApi {
   Future createEOSAccount() async {
     String accountName = _randomString(12);
     Completer completer = Completer();
-    http.get('http://faucet.cryptokylin.io/create_account?$accountName').then((http.Response response) {
+    http.get('http://faucet.cryptokylin.io/create_account?$accountName')
+      .timeout(const Duration(seconds: 6))
+      .then((http.Response response) {
       if (response.statusCode >= 300) {
         completer.completeError(response.body);
       } else {

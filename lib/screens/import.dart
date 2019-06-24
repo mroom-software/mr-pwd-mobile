@@ -120,7 +120,7 @@ class _ImportScreenState extends State<ImportScreen> {
                                 controller: privController,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: '',
+                                  hintText: 'Remember to use active key!',
                                 ),
                               ),
                             ),
