@@ -4,6 +4,14 @@ Password management in your hand. No server, all things are saved to EOS blockch
 
 ### Show some :heart: and star the repo to support the project
 
+
+### Download
+
+<div>
+<a href='https://play.google.com/store/apps/details?id=com.mroom.blockpass&hl=en' target='_blank'><img alt='Get it on Google Play' src='screenshots/google_play.png' height='48px'/></a>
+<a href='https://itunes.apple.com/us/app/blockpass-password-management/id1469354329?ls=1' target='_blank'><img alt='Get it on the App Store' src='screenshots/app_store.png' height='48px'/></a>
+</div>
+
 ### Screenshots
 
 <img src="screenshots/s1.png" height="405em" /> <img src="screenshots/s2.png" height="405em" /> <img src="screenshots/s3.png" height="405em" /> <img src="screenshots/s4.png" height="405em" />
