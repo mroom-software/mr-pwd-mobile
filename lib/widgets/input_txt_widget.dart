@@ -1,3 +1,4 @@
+import 'package:blockpass/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class InputTxtWidget extends StatelessWidget {
@@ -6,9 +7,10 @@ class InputTxtWidget extends StatelessWidget {
   final String lblContent;
   final String lblPlaceHolder;
   final int numLines;
+  final bool isPwd;
   final Function callBack;
 
-  InputTxtWidget({Key key, this.lblLeading, this.lblContent, this.lblPlaceHolder = '', this.numLines = 1, this.callBack, }) : super(key: key) {
+  InputTxtWidget({Key key, this.lblLeading, this.lblContent, this.lblPlaceHolder = '', this.numLines = 1, this.callBack, this.isPwd = false}) : super(key: key) {
     txtController.text = lblContent;
     txtController.addListener(_responseValue);
   }
@@ -55,6 +57,19 @@ class InputTxtWidget extends StatelessWidget {
                     ),
                   ),
                 ),
+                (isPwd) ? Expanded(
+                  flex: 1,
+                  child: InkWell(
+                    onTap: () => _generatePwd(),
+                    child: Icon(
+                      Icons.create,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ) : Expanded(
+                  flex: 1,
+                  child: Container(),
+                ),
               ],
             ),
           ),
@@ -71,6 +86,10 @@ class InputTxtWidget extends StatelessWidget {
         ],
       ), 
     );
+  }
+
+  void _generatePwd() {
+    txtController.text = utils.generateStrongPwd();
   }
 
 }

@@ -1,6 +1,3 @@
-import 'package:blockpass/bc/eos/eos.dart';
-import 'package:blockpass/config/app.dart';
-import 'package:blockpass/data/db/db.dart';
 import 'package:blockpass/data/models/pwd.dart';
 import 'package:blockpass/services/user.dart';
 import 'package:blockpass/utils/utils.dart';
@@ -126,7 +123,7 @@ class _AddScreenState extends State<AddScreen> {
                     Container(
                       height: 65,
                       color: Colors.white,
-                      child: InputTxtWidget(lblLeading: 'Password', lblContent: (pwd != null) ? pwd.password ?? '' : '', lblPlaceHolder: '(Required)', callBack: (value) => {
+                      child: InputTxtWidget(isPwd: true, lblLeading: 'Password', lblContent: (pwd != null) ? pwd.password ?? '' : '', lblPlaceHolder: '(Required)', callBack: (value) => {
                         password = value
                       },),
                     ),

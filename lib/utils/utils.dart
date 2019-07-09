@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -74,12 +76,19 @@ class Utils {
     await storage.delete(key: key);
   }
 
-  void test(String key, Function callback) async {
-    String k = await storage.read(key: key);
-    if (callback != null) {
-      callback(k);
-    }
+  final upperCharaters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  final lowerCharaters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+  final numberCharacters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  final specialCharacters = ['@', '#', '%', '-'];
+  String generateStrongPwd() {
+    final _random = new Random();
+    var upperString = upperCharaters[_random.nextInt(upperCharaters.length)];
+    var specialString = specialCharacters[_random.nextInt(specialCharacters.length)] + specialCharacters[_random.nextInt(specialCharacters.length)];
+    var lowerString = lowerCharaters[_random.nextInt(lowerCharaters.length)] + lowerCharaters[_random.nextInt(lowerCharaters.length)] + lowerCharaters[_random.nextInt(lowerCharaters.length)];
+    var numberString = numberCharacters[_random.nextInt(numberCharacters.length)] + numberCharacters[_random.nextInt(numberCharacters.length)];
+    return '$upperString$specialString$lowerString$numberString';
   }
+
 }
 
 final utils = new Utils();
