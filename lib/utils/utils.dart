@@ -5,13 +5,15 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Utils {
   static final Utils _singleton = new Utils._internal();
-  final storage = new FlutterSecureStorage();
+  var storage;
 
   factory Utils() {
     return _singleton;
   }
 
-  Utils._internal();
+  Utils._internal() {
+    storage = new FlutterSecureStorage();
+  }
 
   static void showPopup
   (
