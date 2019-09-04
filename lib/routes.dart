@@ -1,4 +1,6 @@
 import 'package:blockpass/config/app.dart';
+import 'package:blockpass/screens/feedback.dart';
+import 'package:blockpass/screens/moregame.dart';
 import 'package:flutter/material.dart';
 import 'package:blockpass/screens/settings.dart';
 import 'package:blockpass/screens/login.dart';
@@ -35,6 +37,8 @@ class Routes extends StatelessWidget {
         '/settings': (context) => SettingsScreen(),
         '/add': (context) => AddScreen(),
         '/change_pwd': (context) => ChangePwdScreen(),
+        '/moregame': (context) => MoreGameScreen(),
+        '/feedback': (context) => FeedbackScreen(),
       },
     );
   }

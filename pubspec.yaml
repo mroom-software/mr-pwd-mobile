@@ -31,6 +31,7 @@ dependencies:
   sticky_headers: ^0.1.8
   encrypt: ^3.1.0
   flutter_slidable: ^0.5.3
+  package_info: ^0.4.0+6
   url_launcher: ^5.0.3
 
 dev_dependencies:
