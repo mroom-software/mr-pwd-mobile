@@ -31,7 +31,7 @@ class BPApi {
   Future createEOSAccount() async {
     String accountName = _randomString(12);
     Completer completer = Completer();
-    http.get('http://faucet.cryptokylin.io/create_account?$accountName',
+    http.get('http://faucet.cryptokylin.io/create/${accountName}',
       headers: {
         'Accept': 'application/json',
       },

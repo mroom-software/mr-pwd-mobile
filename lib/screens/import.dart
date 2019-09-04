@@ -43,17 +43,26 @@ class _ImportScreenState extends State<ImportScreen> {
     setState(() {
       _loading = true;
     });
+
     String privateKey = '';
     for (int i = 0; i < 3; i++) {
-      dynamic response = await api.createEOSAccount();
+      dynamic response = await api.createEOSAccount().catchError((){
+        setState(() {
+          _loading = false;
+        });
+      });
+
       if (response is Map) {
-        Map<String, dynamic> keys = response['keys']['active_key'] as Map<String, dynamic>;
-        privateKey = keys['private'];
+        Map<String, dynamic> keys = response['data']['account']['active'] as Map<String, dynamic>;
+        privateKey = keys['privateKey'];
         break;
       }
     }
 
-    if (privateKey.isEmpty) {
+    if (privateKey != null && privateKey.isEmpty) {
+      setState(() {
+        _loading = false;
+      });
       Utils.showPopup(context, 'ERROR', 'Cannot create EOS account. Please try again later!');
       
     } else {
