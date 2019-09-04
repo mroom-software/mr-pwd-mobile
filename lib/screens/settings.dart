@@ -14,7 +14,15 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  List<dynamic> entries = ['Network', 'Chain', 'AutoSync', 'ChangePwd', 'Sync', 'Logout'];
+  List<dynamic> entries = [
+    'Network',
+    'Chain',
+    'AutoSync',
+    'Sync',
+    'ChangePwd',
+    'MoreApps',
+    'Feedback',
+    'Logout'];
 
   int autoSync = app.user.enableSync;
 
@@ -90,6 +98,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
           onTap: () => userSrv.syncNow(),
         );
 
+      case 'MoreApps':
+        return GestureDetector(
+          child: Container(
+            color: Color(0xFFFFFF),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'More Apps',
+              ),
+            ),
+          ),
+          onTap: () => Navigator.pushNamed(context, '/moregame'),
+        );
+      case 'Feedback':
+        return GestureDetector(
+          child: Container(
+            color: Color(0xFFFFFF),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Feedback',
+              ),
+            ),
+          ),
+          onTap: () => Navigator.pushNamed(context, '/feedback'),
+        );
       case 'Logout':
         return GestureDetector (
           child: Container(

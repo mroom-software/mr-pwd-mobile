@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
   static final Utils _singleton = new Utils._internal();
@@ -87,6 +89,18 @@ class Utils {
     var lowerString = lowerCharaters[_random.nextInt(lowerCharaters.length)] + lowerCharaters[_random.nextInt(lowerCharaters.length)] + lowerCharaters[_random.nextInt(lowerCharaters.length)];
     var numberString = numberCharacters[_random.nextInt(numberCharacters.length)] + numberCharacters[_random.nextInt(numberCharacters.length)];
     return '$upperString$specialString$lowerString$numberString';
+  }
+
+  static String getOsPlatform() {
+    return Platform.operatingSystem;
+  }
+
+  static void gotoWebsite(BuildContext context, String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Utils.showPopup(context, 'ERROR', 'Could not launch $url');
+    }
   }
 
 }
