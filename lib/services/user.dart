@@ -72,7 +72,7 @@ class UserSrv {
     } else {
       eos.userInfo( (String name) async {
         print('name = $name');
-        if (name.isEmpty) {
+        if (name.isEmpty && chainName == 'Mainnet') {
           if (callback != null) {
             callback(false);
           }   

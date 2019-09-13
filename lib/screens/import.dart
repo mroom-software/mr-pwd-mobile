@@ -46,7 +46,7 @@ class _ImportScreenState extends State<ImportScreen> {
 
     String privateKey = '';
     for (int i = 0; i < 3; i++) {
-      dynamic response = await api.createEOSAccount().catchError((){
+      dynamic response = await api.createEOSAccount().catchError((error){
         setState(() {
           _loading = false;
         });
