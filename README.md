@@ -1,4 +1,4 @@
-# blockpass
+# Mr-Pwd
 
 Password management in your hand. No server, all things are saved to EOS blockchain
 
